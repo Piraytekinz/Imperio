@@ -1,0 +1,535 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Dental AI</title>
+<meta name="description" content="AI accepts dental images and detects the disease existent within the image while calculating health percentage.">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous"></script> -->
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/> -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" crossorigin="anonymus"></script>
+<script type="text/javascript">
+    $(document).on('click','#save-btn',function(e)
+                    {
+        console.log('hello');
+        e.preventDefault();
+        $.ajax({
+        type:'POST',
+        url:'/save',
+        data:{
+            text:$("#save-text").val(),
+            
+        },
+        success:function()
+        {
+            alert('saved');
+        }
+        })
+    });
+</script>
+
+<style>
+    
+
+    div.main-body {
+        margin: 0px;
+        background: linear-gradient(rgb(1, 0, 15), rgb(0, 0, 17));
+        
+    }
+
+    
+
+    
+    .nav .nav-list {
+        position: absolute;
+        left: 100%;
+        right: 0%;
+        top: 0%;
+        bottom: 0%;
+        display: block;
+        height: 100vh;
+        background: rgba(0,0,0.08,0.5);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        transition: ease-in-out .2s;
+        
+    }
+
+    .nav-list.open {
+        left: 0%;
+        z-index: 0;
+    }
+
+    .nav-list li  {
+        list-style: none;
+        /* width: 230px;
+        height: 50px;
+        background: rgba(0.12941176470588237, 0.2882352941176471, 0.9529411764705882, .1);
+        border: 1px solid rgb(14, 89, 250);
+        margin-bottom: 20px;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        border-radius: 20px 0px 20px 0px; */
+        
+    }
+
+    .nav-list .sign-out, .about, .creator {
+        text-decoration: none;
+        font-size: 20px;
+        color: rgb(14, 89, 250);
+        text-align: center;
+        list-style: none;
+        width: 230px;
+        height: 50px;
+        background: rgba(0.12941176470588237, 0.2882352941176471, 0.9529411764705882, .1);
+        border: 1px solid rgb(14, 89, 250);
+        margin-bottom: 20px;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        border-radius: 20px 0px 20px 0px;
+    }
+
+    .nav-list .sign-out:hover, .about:hover, .creator:hover {
+        background: rgb(14, 89, 250);
+        color: black;
+    }
+
+    .nav-list.sign-out.open {
+        background: rgb(14, 89, 250);
+        color: black;
+    }
+    .nav-list.about.open {
+        background: rgb(14, 89, 250);
+        color: black;
+    }
+    .nav-list.creator.open {
+        background: rgb(14, 89, 250);
+        color: black;
+    }
+
+    .menu-btn {
+        height: 48px;
+        width: 48px;
+        border-radius: 4px;
+        border: 1px solid rgb(14, 89, 250);
+        color: rgb(14, 89, 250);
+        background: none;
+        /* font-size: 17px; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 10px;
+        color: rgb(14, 89, 250);
+        font-size: 17px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        
+    }
+    
+    .icon-menu {
+        width: 20px;
+        height: 20px;
+        margin-right: 1px; 
+    }
+
+    .close-btn {
+        height: 48px;
+        width: 48px;
+        border-radius: 4px;
+        border: 1px solid rgb(14, 89, 250);
+        color: rgb(14, 89, 250);
+        background: none;
+        /* font-size: 17px; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 5px;
+        color: rgb(14, 89, 250);
+        font-size: 17px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        z-index: 0;
+        display: block;
+        margin-bottom: 30px;
+    }
+
+    .predictions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    .predictions p {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 15px;
+        font-weight: 900;
+        color: white;
+        font-weight: bold;
+        margin-top: 20px;
+        font-family: monospace;
+    }
+
+    p {
+        color: white;
+    }
+    
+    .predictions div {
+        
+        justify-content: center;
+        align-items: center;
+    }
+    .img-con {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        border: 1px solid grey;
+        width: 310px;
+        height: 310px;
+        border-radius: 155px;
+        margin-top: 30px;
+        
+    }
+    .sub-main {
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+    }
+    .form {
+        margin-right: 10px;
+        margin-top: 20px;
+    }
+    .detection {
+        text-align: center;
+        font-size: 40px;
+        font-weight: 900;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        opacity: 1;
+        -webkit-transition: opacity 0.5s ease-in-out;
+        transition: opacity 0.5s ease-in-out;
+    }
+    .detection.fade {
+        opacity: 0;
+    }
+    
+    
+    
+    .bars {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        margin-bottom: 60px;
+    }
+
+    .b1, .b2, .b3 {
+        background: rgb(14, 89, 250);
+        height: 5px;
+        width: 60px;
+        margin-left: 10px;
+    }
+    .ana {
+        margin-top: 50px;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        margin-bottom: 50px;
+    }
+
+    .ana input[type="button"] {
+        height: 55px;
+        width: 90%;
+        font-size: 15px;
+        background: none;
+        border: 1px solid rgb(14, 89, 250);
+        color: rgb(14, 89, 250);
+        border-radius: 25px 0px 25px 0px;
+    }
+
+    .ana input[type="button"].open {
+        background-color: rgb(14, 89, 250);
+        color: black;
+    }
+
+    .form {
+        display: flex;
+        margin-bottom: 70px;
+        margin-left: 10px;
+    }
+
+    .form input[type="submit"] {
+        height: 55px;
+        width: 55px;
+        border-radius: 27px;
+        border: 1px solid rgb(14, 89, 250);
+        color: rgb(14, 89, 250);
+        background: none;
+        font-size: 17px;
+        margin-left: 30px;
+    }
+
+    .form button { 
+        height: 55px;
+        width: 55px;
+        border-radius: 27px;
+        border: 1px solid rgb(14, 89, 250);
+        color: rgb(14, 89, 250);
+        background: none;
+        font-size: 17px;
+        margin-left: 30px;
+        transition: 0.3s;
+    }
+
+    .form button .button-image {
+        width: 20px;
+        height: 20px;
+        margin-top: 5px;
+        margin-right: 1px;
+    }
+
+    .form button .save-button-image {
+        width: 20px;
+        height: 20px;
+        margin-top: 5px;
+        margin-right: 1px;
+    }
+    
+    .form .open-image.open {
+        animation: animate 1s;
+        
+    }
+    
+   
+
+
+    .form .save-button.open {
+        
+        animation: animate 1s;
+    }
+
+    @keyframes animate {
+        0% {
+            background: rgb(14, 89, 250);
+        }
+        100% {
+            background: none;
+        }
+    }
+    
+    .form .refresh.open {
+        animation: animate 1s;
+
+    }
+    
+    
+    
+    .form .refresh {
+        height: 55px;
+        width: 55px;
+        border-radius: 27px;
+        border: 1px solid rgb(14, 89, 250);
+        color: rgb(14, 89, 250);
+        background: none;
+        font-size: 17px;
+        margin-left: 30px;
+        
+    }
+
+    .form .refresh .refresh-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 1px;
+        /* margin-bottom: 5px; */
+        margin-top: 6px;
+    }
+
+    .form-control {
+        width: 50px;
+    }
+
+    
+
+    
+
+    .filer {
+        height: 55px;
+        width: 55px;
+        border-radius: 27px;
+        border: 1px solid rgb(14, 89, 250);
+        color: rgb(14, 89, 250);
+        background: none;
+        font-size: 15px;
+        margin-left: 30px;
+        text-align: center;
+        
+    }
+
+    input[type="file"] {
+        width: 100px;
+        display: none;
+        overflow: hidden;
+    }
+    #submit-img {
+        display: none;
+    }
+    .ai {
+        width: 40px;
+        height: 40px;
+
+        margin-right: 10px;
+    }
+    .tooth-icon {
+        width: 40px;
+        height: 40px;
+        margin-left: 10px;
+    }
+
+    .contact-txt {
+        color: rgb(14, 89, 250);
+        margin-top: 100px;
+        font-family: monospace;
+        font-size: 18px;
+    }
+
+    .contact-label {
+        color: rgb(14, 89, 250);
+        font-size: 15px;
+    }
+
+    .our_email {
+        color: rgb(14, 89, 250);
+        border: none;
+        font-size: 15px;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="main-body">
+    
+   
+
+    <div class="nav">
+        <ul class="nav-list">
+            <button class="close-btn" id="close-btn">X</button>
+            
+            <a href="{{ url_for('signout') }}" class="sign-out" id="sign-out" onclick="signOutAnim()"><b>Sign out</b></a>
+            <a href="about" class="about" id="about" onclick="aboutAnim()"><b>About</b></a>
+            <a href="creator" class="creator" id="creator" onclick="creatorAnim()"><b>Founder</b></a> 
+
+            <p class="contact-txt">Contact Us</p>
+            <label for="" class="contact-label">Email: </label>
+            <a href="mailto:hometernetmanager@gmail.com" class="our_email">hometernetmanager@gmail.com</a>
+            
+        </ul>
+    </div>
+    <div class='menu-btn' id="menu-icon">
+        <img src="static/images/more.png" alt="" class="icon-menu">
+        <!-- <i class="fa-solid fa-bars" style="color: #0e59fa;"></i> -->
+    </div>
+
+
+    <div class="predictions">
+
+        <div>
+            <p id="Ca" class="Ca">Ca: 0%</p>
+            <p id="Gi" class="Gi">Gi: 0%</p>
+            <p id="Hy" class="Hy">Hy: 0%</p>
+        </div>
+        <div>
+            <p id="he" class="he">He: 0%</p>
+        </div>
+        
+        <div>
+            <p id="De" class="De">De: 0%</p>
+            <p id="Ul" class="div">Ul: 0%</p>
+            <p id="Di" class="Di">Di: 0%</p>
+        </div>
+
+
+
+    </div>
+    <div class="main">
+        <div class="sub-main">
+            <img src="static/Images/tooth (2).png" alt="" class="tooth-icon">
+            <div class="img-con">
+                
+                {% if filename %}
+                <img src="{{ url_for('display', filename=filename) }}" alt="" id="image" class="main-img" width="240px" height="240px" style="border-radius: 120px;">
+                {% endif %}
+            </div>
+            <img src="static/Images/artificial-intelligence.png" alt="" class="ai">
+        </div>
+        <p class="detection" id="detection">Detection</p>
+
+        <div class="bars">
+
+            <div class="b1"></div>
+            <div class="b2"></div>
+            <div class="b3"></div>
+
+        </div>
+
+        <div class="form">
+            <form action="/" method="post" enctype="multipart/form-data">
+                
+                <input type="file" name="file" id="file" class="form-control" autocomplete="off" accept="image/jpeg, image/jpg, image/png, image/webp, image/bmp" required>
+                <!-- <input type="button" value="F" for="file" id="filer" onclick="clickImage()"> -->
+                <button type="button" for="file" onclick="clickImage()" class="open-image" id="open-image"><img src="static/Images/photo.png" alt="" class="button-image"></button>
+                
+                <input type="submit" value="S" id="submit-img">
+                
+                
+                
+            </form>
+            <form action="/" method="post" enctype="multipart/form-data" id="save-form">
+                <input type="text" style="display: none;" value="" id="save-text">
+                <button type="button" id="save-btn" class="save-button" onclick="saveButton()"><img src="static/Images/diskette.png" alt="" class="save-button-image" id="save-btn-image"></button>
+                <!-- <input type="button" value="S" id="save-btn"> -->
+            </form>
+            
+            
+            <button type="button" onclick="reset()" class="refresh" id="refresh"><img src="static/images/refresh.png" alt="" class="refresh-icon"></button>
+            <!-- <input type="button" value="D" onclick="reset()"> -->
+            
+        </div>
+        
+        <div class="ana">
+            <input type="button" value="Analyze" onclick="verifyTeeth()" align="right" id="analyze">
+        </div>
+        
+
+    </div>
+
+
+</div>
+
+<script src="static/javascripts/main.js"></script>
+
+
+
+
+
+
+
+{% endblock %}

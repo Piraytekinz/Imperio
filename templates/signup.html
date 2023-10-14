@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI accepts dental images and detects the disease existent within the image while calculating health percentage.">
+
+    <title>Dental AI</title>
+
+    <!-- <script type="text/javascript">
+        $(document).on('submit','#account-form',function(e)
+                       {
+            console.log('hello');
+            e.preventDefault();
+            $.ajax({
+            type:'POST',
+            url:'/signup',
+            data:{
+              email:$("#email").val(),
+              password:$("#password").val()
+            },
+            success:function()
+            {
+              alert('saved');
+            }
+          })
+        });
+    </script> -->
+
+    <style>
+        body {
+            margin: 30px;
+            background: linear-gradient(rgb(1, 0, 15), rgb(0, 0, 17));
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        .main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10%;
+        }
+
+        .submain {
+            display: block;
+            
+            
+            border-radius: 10px;
+            width: 100%;
+            min-width: 400px;
+        }
+
+        .form {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            height: 300px;
+        }
+        
+        form {
+            display: block;
+            max-width: 400px;
+            width: 70%;
+            
+            
+            border-radius: 5px;
+            padding: 40px;
+        }
+
+        .emailcard {
+            list-style: none;
+            
+            height: 50px;
+            background: none;
+            border: 1px solid rgb(14, 89, 250);
+            margin-bottom: 20px;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            border-radius: 15px 0px 15px 0px;
+        }
+
+        .emailcard input {
+            background: none;
+        }
+
+        .passwordcard {
+            list-style: none;
+            
+            height: 50px;
+            background: none;
+            border: 1px solid rgb(14, 89, 250);
+            margin-bottom: 20px;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            border-radius: 15px 0px 15px 0px;
+        }
+
+
+        h2 {
+            color: rgb(14, 89, 250);
+            text-align: center;
+            font-family: monospace;
+            font-size: 25px;
+        }
+
+        a {
+            text-decoration: none;
+            color: rgb(14, 89, 250);
+            border: 1px solid rgb(14, 89, 250);
+            border-radius: 5px;
+            /* margin: 30px; */
+            
+            font-size: 20px;
+            font-family: monospace;
+            font-weight: bold;
+            height: 60px;
+            width: 80px;
+            transition: 0.4s;
+            padding: 10px;
+        }
+
+        a:hover {
+            color: rgb(14, 89, 250);
+            border: 1px solid rgb(14, 89, 250);
+            border-radius: 5px;
+        }
+
+        input[type=email] {
+            width: 90%;
+            
+            background: none;
+            color: rgb(14, 89, 250);
+            outline: none;
+            border: none;
+            fill: none;
+            font-size: 20px;
+            height: 30px;
+            font-weight: bold;
+            font-family: monospace;
+        }
+        
+        input[type=password] {
+            width: 90%;
+            /* background-color: red; */
+            background: none;
+            color: rgb(14, 89, 250);
+            outline: none;
+            border: none;
+            fill: none;
+            font-size: 20px;
+            height: 30px;
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        
+        .sub {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+
+        .sub input[type=submit] {
+            height: 50px;
+            width: 80%;
+            background: none;
+            border: 1px solid rgb(14, 89, 250);
+            border-radius: 20px 0px 20px 0px;
+            color: rgb(14, 89, 250);
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.4s;
+            /* padding: 100px; */
+        }
+
+        .sub input[type=submit].open {
+            background-color: rgb(14, 89, 250);
+            color: black;
+        }
+
+        .sub input[type=submit]:hover {
+            background-color: rgb(14, 89, 250);
+            color: black;
+        }
+
+        p {
+            font-size: 13px;
+            color: red;
+            text-align: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+    <a href="signin-page">Login</a>
+    
+    <div class="main">
+        <div class="submain">
+            <h2>Sign up</h2>
+            <div class="form">
+                <form action="{{ url_for('signup') }}" method="post" enctype="multipart/form-data" id="account-form" autocomplete="off">
+                    <div class="emailcard">
+                        <input type="email" name="email" id="email" autocomplete="off" placeholder="email"><br>
+                        <label for="email"></label><br>
+                    </div>
+                    
+                    <div class="passwordcard">
+                        <input type="password" name="password" id="password" autocomplete="new-password" placeholder="password"><br>
+                        <label for="pass"></label><br>
+                    </div>
+                    
+                    <div class="sub">
+                        <input type="submit" value="submit" id="submit" class="submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        
+        
+    </div>
+    {% if error %}
+        <p>{{error}}</p>
+    {% endif %}
+
+    <script>
+        let btn = document.querySelector('.submit')
+
+        console.log(btn)
+        btn.onclick = () => {
+            btn.classList.toggle('open')
+        }   
+    </script>
+</body>
+</html>
