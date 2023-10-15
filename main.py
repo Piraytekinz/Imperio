@@ -56,12 +56,12 @@ def build():
             json.dump(dictionary, jsonfile)
         return render_template('signup.html')
    
-    print('continue')
+    
     with open(f"{side_path}\\DentalAI\\account.json", "r") as jsonfile:
         read = json.load(jsonfile)
         if read['email'] == '':
-            # return render_template('login.html')
-            pass
+            return render_template('login.html')
+
         return render_template('index.html')
 
 @app.route('/', methods=['POST'])
@@ -71,7 +71,7 @@ def upload_image():
     if file:
         
         if len(os.listdir(upload_folder)) > 0:
-            print(os.listdir(upload_folder)[0])
+            
             os.remove(os.path.join(path, 'static', 'uploads', os.listdir(upload_folder)[0]))
             
         filename = secure_filename(file.filename)
@@ -82,7 +82,7 @@ def upload_image():
 
 @app.route('/signin', methods=['POST'])
 def signin():
-    print('signing in')
+    
     error = None
     email = request.form.get('email')
     password = request.form.get('password')
@@ -167,7 +167,7 @@ def signin():
 @app.route('/signup', methods=['POST'])
 def signup():
     error = None
-    print('signing up')
+    
     email = request.form.get('email')
     password = request.form.get('password')
 
@@ -263,7 +263,7 @@ def save():
         if len(os.listdir(upload_folder)) > 0:
             file = os.listdir(upload_folder)[0]
             save_path = os.path.expanduser('~\\Downloads')
-            print(save_path + '\\' + request.form.get('text') + ' ' +file)
+            
             img = Image.open(os.path.join(upload_folder, file))
 
 
@@ -310,4 +310,4 @@ def display(filename):
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0')

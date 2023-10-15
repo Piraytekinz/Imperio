@@ -1,10 +1,10 @@
-console.log('started')
+
 
 
 
 $(document).ready(function () {
     $("#file").on("change", showFile)
-    console.log('readty')
+    
 })
 
 
@@ -25,7 +25,7 @@ btn.onclick = () => {
 
 
 function showFile(e) {
-    console.log('changed')
+    
     document.getElementById('submit-img').click()
     // var binaryData = []
     // binaryData.push(e.target.value)
@@ -34,7 +34,7 @@ function showFile(e) {
     
     
 
-    // console.log(binaryData)
+    // 
 
     // var par = new Blob(binaryData, {type: "image/jpg"})
 
@@ -42,7 +42,7 @@ function showFile(e) {
 
     // var file = new FileReader()
 
-    // console.log(file.readAsDataURL(par))
+    // 
 
 }
 
@@ -52,7 +52,7 @@ async function verifyTeeth() {
     try {
         let image = document.getElementById('image')
 
-        console.log(image.src)
+        
         
 
         if (image.src!= '') {
@@ -69,7 +69,7 @@ async function verifyTeeth() {
 
             const model = await tf.loadLayersModel('static/verify teeth model/model.json')
 
-            console.log('loading model')
+            
 
             a = await tf.browser.fromPixels(image, 3).resizeBilinear([256, 256])
 
@@ -82,7 +82,7 @@ async function verifyTeeth() {
 
             var arr = Array.from(n)
 
-            console.log(arr[0]*100)
+            
 
             if (arr[0]*100 == 100) {
                 loadModel()
@@ -94,7 +94,7 @@ async function verifyTeeth() {
                 analyze.classList.toggle("open")
 
                 analyze.value = 'Analyze'
-                console.log('teeth undetected')
+                
             }
         
         }
@@ -116,7 +116,7 @@ async function loadModel() {
 
         let image = document.getElementById('image')
 
-        console.log(image.src)
+        
 
         
 
@@ -126,7 +126,7 @@ async function loadModel() {
 
         const model = await tf.loadLayersModel('static/web model/model.json')
 
-        console.log('loading model')
+        
 
         
 
@@ -135,8 +135,8 @@ async function loadModel() {
 
 
 
-        console.log(a.shape)
-        console.log(a.size)
+        
+        
 
 
         const input = await tf.sub(tf.div(tf.expandDims(a), 127.5), 1)
@@ -175,29 +175,29 @@ async function loadModel() {
             }
             
         }
-        console.log(idx)
+        
 
         
         if (idx == 0) {
-            console.log('Calculus')
+            
             detection.innerHTML = 'Calculus Detected ' + Math.floor(arr[0]*100)+'%'
         } else if (idx == 1) {
-            console.log('Decay')
+            
             detection.innerHTML = 'Decay Detected ' + Math.floor(arr[1]*100)+'%'
         } else if (idx == 2) {
-            console.log('Discoloration')
+            
             detection.innerHTML = 'Discoloration Detected ' + Math.floor(arr[2]*100)+'%'
         } else if (idx == 3) {
-            console.log('Gingivitis')
+            
             detection.innerHTML = 'Gingivitis Detected ' + Math.floor(arr[3]*100)+'%'
         } else if (idx == 4) {
-            console.log('healthy')
+            
             detection.innerHTML = 'Healthy ' + Math.floor(arr[4]*100)+'%'
         } else if (idx == 5) {
-            console.log('hypodontia')
+            
             detection.innerHTML = 'Hypodontia Detected ' + Math.floor(arr[5]*100)+'%'
         } else {
-            console.log('Ulcer')
+            
             detection.innerHTML = 'Mouth Ulcer Detected ' + Math.floor(arr[6]*100)+'%'
         }
 
@@ -266,15 +266,15 @@ async function refreshButton() {
 function signOutAnim() {
     var btn = document.getElementById('sign-out')
     btn.classList.toggle("open")
-    console.log('signout')
+    
 }
 function aboutAnim() {
     var btn = document.getElementById('about')
     btn.classList.toggle("open")
-    console.log('about')
+    
 }
 function creatorAnim() {
     var btn = document.getElementById('creator')
     btn.classList.toggle("open")
-    console.log('creator')
+    
 }
