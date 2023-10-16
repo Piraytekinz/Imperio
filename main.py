@@ -312,4 +312,4 @@ def display(filename):
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
 if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0', port=int(os.getenv('PORT', 3000)))
