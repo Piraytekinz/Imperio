@@ -3,7 +3,7 @@
 {% block head %}
 
 <title>Dental AI</title>
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<!-- <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}"> -->
 <meta name="description" content="AI accepts dental images and detects the disease existent within the image while calculating health percentage.">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous"></script> -->
@@ -12,23 +12,34 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" crossorigin="anonymus"></script>
 <script type="text/javascript">
-    $(document).on('click','#save-btn',function(e)
-                    {
-        console.log('hello');
-        e.preventDefault();
-        $.ajax({
-        type:'POST',
-        url:'/save',
-        data:{
-            text:$("#save-text").val(),
+    try {
+        detection = document.getElementById('detection')
+        $(document).on('click','#save-btn',function(e)
+                        {
             
-        },
-        success:function()
-        {
-            alert('saved');
-        }
-        })
-    });
+            e.preventDefault();
+            $.ajax({
+            type:'POST',
+            url:'/save',
+            data:{
+                text:$("#save-text").val(),
+                
+            },
+            success:function()
+            {
+                if (detection.innerHTML == "Detection" || detection.innerHTML == "Teeth undetected") {
+                    alert('Error saving')
+                } else {
+                    alert('saved');
+                }
+                
+            }
+            })
+        });
+    } catch {
+        console.log('')
+    }
+    
 </script>
 
 <style>
@@ -63,19 +74,7 @@
         z-index: 0;
     }
 
-    .nav-list li  {
-        list-style: none;
-        /* width: 230px;
-        height: 50px;
-        background: rgba(0.12941176470588237, 0.2882352941176471, 0.9529411764705882, .1);
-        border: 1px solid rgb(14, 89, 250);
-        margin-bottom: 20px;
-        justify-content: center;
-        display: flex;
-        align-items: center;
-        border-radius: 20px 0px 20px 0px; */
-        
-    }
+
 
     .nav-list .sign-out, .about, .creator {
         text-decoration: none;
@@ -392,7 +391,7 @@
 
     .contact-txt {
         color: rgb(14, 89, 250);
-        margin-top: 100px;
+        margin-top: 60px;
         font-family: monospace;
         font-size: 18px;
     }
@@ -406,6 +405,82 @@
         color: rgb(14, 89, 250);
         border: none;
         font-size: 15px;
+    }
+
+    .notice {
+        color: rgb(14, 89, 250);
+        margin-top: 50px;
+        font-family: monospace;
+        font-size: 15px;
+    }
+
+    .read-more {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* cursor: pointer; */
+    }
+
+    .read-more-text {
+        font-size: 20px;
+        color: rgb(14, 89, 250);
+        font-family: monospace;
+        padding: 10px;
+        border-bottom: 2px solid rgb(14, 89, 250);
+        cursor: pointer;
+    }
+
+    .details {
+        width: 70%;
+        height: 40%;
+        background: rgba(0,0,0.08,0.7);
+        border: 1px solid rgb(14, 89, 250);
+        border-radius: 10px;
+        position: absolute;
+        right: 100%;
+        left: -100%;
+        top: 80%;
+        /* bottom: 30%; */
+        transition: 1s ease-in-out;
+        overflow-y: scroll;
+        /* max-width: 600px; */
+    }
+
+    .details.open {
+        right: 0%;
+        left: 15%;
+        z-index: 0;
+        
+    }
+
+    .details h2 {
+        text-align: left;
+        color: white;
+        font-family: monospace;
+        font-size: 20px;
+        margin-left: 10%;
+    }
+
+    .details p {
+        color: white;
+        font-family: monospace;
+        font-size: 14px;
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-top: 20px;
+        
+    }
+
+    .close-details {
+        width: 30%;
+        height: 40px;
+        margin-left: 35%;
+        border: 1px solid rgb(14, 89, 250);
+        border-radius: 10px 0px 10px 0px;
+        color: black;
+        font-family: monospace;
+        margin-top: 20px;
+        background: rgb(14, 89, 250);
     }
 </style>
 
@@ -441,6 +516,8 @@
             <p class="contact-txt">Contact Us</p>
             <label for="" class="contact-label">Email: </label>
             <a href="mailto:hometernetmanager@gmail.com" class="our_email">hometernetmanager@gmail.com</a>
+
+            <p class="notice">Note: Our AI is not 100% accurate. Contact us if you're willing to share some data. To get accurate results, display a close detailed image of your teeth without excessive face interference.</p>
             
         </ul>
     </div>
@@ -491,6 +568,10 @@
 
         </div>
 
+        <div class="read-more" id="read-more">
+            <p class="read-more-text" id="read-more-text" onclick="showDetails()">Read more</p>
+        </div>
+
         <div class="form">
             <form action="/" method="post" enctype="multipart/form-data">
                 
@@ -520,6 +601,12 @@
         </div>
         
 
+    </div>
+
+    <div class="details" id="details">
+        <h2 class="details-title" id="details-title">No analyses made</h2>
+        <p class="description" id="description">No analyses</p>
+        <button class="close-details" id="close-details" onclick="closeDetails()">close</button>
     </div>
 
 
