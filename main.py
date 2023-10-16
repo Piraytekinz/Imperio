@@ -275,9 +275,11 @@ def save():
 
             draw.text((2,2), text, font=font, align='right')
 
-            date = str(datetime.datetime.now())
+            date = datetime.datetime.now()
 
-            img.save(save_path + '\\' + request.form.get('text') + ' ' + date + ' ' +file)
+            new_date = f"{str(date.year)}-{str(date.month)}-{str(date.day)}"
+
+            img.save(save_path + '\\' + request.form.get('text') + ' ' + new_date + ' ' +file)
         
 
     return render_template('index.html')
