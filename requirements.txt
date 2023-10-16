@@ -5,7 +5,6 @@ requests
 urllib3
 certifi
 chardet
-openssl
 charset_normalizer
 idna
 oauth2client
