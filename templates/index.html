@@ -2,13 +2,12 @@
 
 {% block head %}
 
-<title>Dental AI</title>
-<!-- <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}"> -->
-<meta name="description" content="AI accepts dental images and detects the disease existent within the image while calculating health percentage.">
-<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous"></script> -->
-<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/> -->
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>
+{% block title %} Dental AI {% endblock %}
+<!-- <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<meta name="description" content="AI accepts dental images and detects the disease existent within the image while calculating health percentage."> -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" crossorigin="anonymus"></script>
 <script type="text/javascript">
@@ -63,8 +62,8 @@
         display: block;
         height: 100vh;
         background: rgba(0,0,0.08,0.5);
-        backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
         transition: ease-in-out .2s;
         
     }
@@ -482,6 +481,12 @@
         margin-top: 20px;
         background: rgb(14, 89, 250);
     }
+    .nav-list li {
+        list-style: none;
+    }
+    #save-text {
+        display: none;
+    }
 </style>
 
 {% endblock %}
@@ -507,22 +512,22 @@
 
     <div class="nav">
         <ul class="nav-list">
-            <button class="close-btn" id="close-btn">X</button>
+            <li><button class="close-btn" id="close-btn">X</button></li>
             
-            <a href="{{ url_for('signout') }}" class="sign-out" id="sign-out" onclick="signOutAnim()"><b>Sign out</b></a>
-            <a href="about" class="about" id="about" onclick="aboutAnim()"><b>About</b></a>
-            <a href="creator" class="creator" id="creator" onclick="creatorAnim()"><b>Founder</b></a> 
+            <li><a href="{{ url_for('signout') }}" class="sign-out" id="sign-out" onclick="signOutAnim()"><b>Sign out</b></a></li>
+            <li><a href="about" class="about" id="about" onclick="aboutAnim()"><b>About</b></a></li>
+            <li><a href="creator" class="creator" id="creator" onclick="creatorAnim()"><b>Founder</b></a> </li>
 
-            <p class="contact-txt">Contact Us</p>
-            <label for="" class="contact-label">Email: </label>
-            <a href="mailto:hometernetmanager@gmail.com" class="our_email">hometernetmanager@gmail.com</a>
+            <li><p class="contact-txt">Contact Us</p></li>
+            <li><p for="" class="contact-label">Email: </p></li>
+            <li><a href="mailto:hometernetmanager@gmail.com" class="our_email">hometernetmanager@gmail.com</a></li>
 
-            <p class="notice">Note: Our AI is not 100% accurate. Contact us if you're willing to share some data. To get accurate results, display a close detailed image of your teeth without excessive face interference.</p>
+            <li><p class="notice">Note: Our AI is not 100% accurate. Contact us if you're willing to share some data. To get accurate results, display a close detailed image of your teeth without excessive face interference.</p></li>
             
         </ul>
     </div>
     <div class='menu-btn' id="menu-icon">
-        <img src="static/images/more.png" alt="" class="icon-menu">
+        <img src="static/images/more.png" alt="menu" class="icon-menu">
         <!-- <i class="fa-solid fa-bars" style="color: #0e59fa;"></i> -->
     </div>
 
@@ -549,14 +554,14 @@
     </div>
     <div class="main">
         <div class="sub-main">
-            <img src="static/Images/tooth (2).png" alt="" class="tooth-icon">
+            <img src="static/Images/tooth (2).png" alt="tooth" class="tooth-icon">
             <div class="img-con">
                 
                 {% if filename %}
-                <img src="{{ url_for('display', filename=filename) }}" alt="" id="image" class="main-img" width="240px" height="240px" style="border-radius: 120px;">
+                <img src="{{ url_for('display', filename=filename) }}" alt="#" id="image" class="main-img" width="240px" height="240px" style="border-radius: 120px;">
                 {% endif %}
             </div>
-            <img src="static/Images/artificial-intelligence.png" alt="" class="ai">
+            <img src="static/Images/artificial-intelligence.png" alt="ai" class="ai">
         </div>
         <p class="detection" id="detection">Detection</p>
 
@@ -575,9 +580,9 @@
         <div class="form">
             <form action="/" method="post" enctype="multipart/form-data">
                 
-                <input type="file" name="file" id="file" class="form-control" autocomplete="off" accept="image/jpeg, image/jpg, image/png, image/webp, image/bmp" required>
+                <input type="file" name="file" id="file" class="form-control" title="nothing" placeholder="nothing" autocomplete="off" accept="image/jpeg, image/jpg, image/png, image/webp, image/bmp" required>
                 <!-- <input type="button" value="F" for="file" id="filer" onclick="clickImage()"> -->
-                <button type="button" for="file" onclick="clickImage()" class="open-image" id="open-image"><img src="static/Images/photo.png" alt="" class="button-image"></button>
+                <button type="button" for="file" onclick="clickImage()" class="open-image" id="open-image"><img src="static/Images/photo.png" alt="#" class="button-image"></button>
                 
                 <input type="submit" value="S" id="submit-img">
                 
@@ -585,19 +590,19 @@
                 
             </form>
             <form action="/" method="post" enctype="multipart/form-data" id="save-form">
-                <input type="text" style="display: none;" value="" id="save-text">
-                <button type="button" id="save-btn" class="save-button" onclick="saveButton()"><img src="static/Images/diskette.png" alt="" class="save-button-image" id="save-btn-image"></button>
+                <input type="text" value="" id="save-text" title="Save" placeholder="Save">
+                <button type="button" id="save-btn" class="save-button" onclick="saveButton()"><img src="static/Images/diskette.png" alt="#" class="save-button-image" id="save-btn-image"></button>
                 <!-- <input type="button" value="S" id="save-btn"> -->
             </form>
             
             
-            <button type="button" onclick="reset()" class="refresh" id="refresh"><img src="static/images/refresh.png" alt="" class="refresh-icon"></button>
+            <button type="button" onclick="reset()" class="refresh" id="refresh"><img src="static/images/refresh.png" alt="#" class="refresh-icon"></button>
             <!-- <input type="button" value="D" onclick="reset()"> -->
             
         </div>
         
         <div class="ana">
-            <input type="button" value="Analyze" onclick="verifyTeeth()" align="right" id="analyze">
+            <input type="button" value="Analyze" onclick="verifyTeeth()" id="analyze">
         </div>
         
 
@@ -612,7 +617,7 @@
 
 </div>
 
-<script src="static/javascripts/main.js"></script>
+<script src="static/javascripts/main.js" type="text/javascript"></script>
 
 
 

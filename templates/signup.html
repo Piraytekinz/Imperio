@@ -6,7 +6,7 @@
     <meta name="description" content="AI accepts dental images and detects the disease existent within the image while calculating health percentage.">
 
     <title>Dental AI</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!-- <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}"> -->
     <!-- <script type="text/javascript">
         $(document).on('submit','#account-form',function(e)
                        {
@@ -211,7 +211,7 @@
                     
                     <div class="passwordcard">
                         <input type="password" name="password" id="password" autocomplete="new-password" placeholder="password"><br>
-                        <label for="pass"></label><br>
+                        <label for="password"></label><br>
                     </div>
                     
                     <div class="sub">
@@ -224,11 +224,12 @@
         
         
     </div>
+    
     {% if error %}
         <p>{{error}}</p>
     {% endif %}
 
-    <script>
+    <script type="text/javascript">
         let btn = document.querySelector('.submit')
 
         console.log(btn)
