@@ -1,11 +1,15 @@
 
 
+try {
+    $(document).ready(function () {
+        $("#file").on("change", showFile)
+        
+    })
+} catch {
+    alert('An unknown error occured check your connection and try again.')
+}
 
 
-$(document).ready(function () {
-    $("#file").on("change", showFile)
-    
-})
 
 
 let menu = document.querySelector('.menu-btn')
