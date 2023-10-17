@@ -10,7 +10,6 @@ import datetime
 
 app = Flask(__name__)
 
-app.secret_key = "AIzaSyAwNGiMC3hRPLlYinWz9aWKeAqJ3nAs1Yk"
 
 firebaseConfig = {
   "apiKey": "AIzaSyAwNGiMC3hRPLlYinWz9aWKeAqJ3nAs1Yk",
@@ -30,8 +29,8 @@ auth = firebase.auth()
 
 path = os.getcwd()
 
-upload_folder = path+'\\'+'static\\uploads\\'
-side_path = os.path.expanduser('~\\Documents')
+upload_folder = os.path.join(path,'static','uploads')
+side_path = os.path.expanduser('~\Documents')
 
 app.config['UPLOAD_FOLDER'] = upload_folder
 filename = ''
@@ -42,27 +41,27 @@ def build():
     
    
     
-    verify_acc = os.path.exists(os.path.join(side_path, 'DentalAI', 'account.json'))
-    dictionary = {
-        "email": "",
-        "password": "",
-        "localID": "",
-        "idToken": ""
-    }
+    # verify_acc = os.path.exists(os.path.join(side_path, 'DentalAI', 'account.json'))
+    # dictionary = {
+    #     "email": "",
+    #     "password": "",
+    #     "localID": "",
+    #     "idToken": ""
+    # }
 
-    if not verify_acc:
-        os.makedirs(os.path.join(side_path, 'DentalAI'))
-        with open(f"{side_path}\\DentalAI\\account.json", "a") as jsonfile:
-            json.dump(dictionary, jsonfile)
-        return render_template('signup.html')
-   
+    # if not verify_acc:
+    #     os.makedirs(os.path.join(side_path, 'DentalAI'))
+    #     with open(os.path.join(side_path, 'DentalAI', 'account.json'), "a") as jsonfile:
+    #         json.dump(dictionary, jsonfile)
+    #     return render_template('signup.html')
+        
     
-    with open(f"{side_path}\\DentalAI\\account.json", "r") as jsonfile:
-        read = json.load(jsonfile)
-        if read['email'] == '':
-            return render_template('login.html')
+    # with open(os.path.join(side_path, 'DentalAI', 'account.json'), "r") as jsonfile:
+    #     read = json.load(jsonfile)
+    #     if read['email'] == '':
+    #         return render_template('login.html')
 
-        return render_template('index.html')
+    return render_template('intro.html')
 
 @app.route('/', methods=['POST'])
 def upload_image():
@@ -70,12 +69,15 @@ def upload_image():
 
     if file:
         
-        if len(os.listdir(upload_folder)) > 0:
+        # if len(os.listdir(upload_folder)) > 0:
             
-            os.remove(os.path.join(path, 'static', 'uploads', os.listdir(upload_folder)[0]))
+        #     os.remove(os.path.join(path, 'static', 'uploads', os.listdir(upload_folder)[0]))
+        try:
             
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        except Exception as e:
+            return 'Error reading file ' + e
 
     return render_template('index.html', filename=filename)
 
@@ -95,32 +97,33 @@ def signin():
                 try:
                     user = auth.sign_in_with_email_and_password(email, password)
 
-                    verify_acc = os.path.exists(os.path.join(side_path, 'DentalAI', 'account.json'))
+                    # verify_acc = os.path.exists(os.path.join(side_path, 'DentalAI', 'account.json'))
                     
 
-                    if not verify_acc:
-                        dictionary = {
-                            "email": "",
-                            "password": "",
-                            "localID": "",
-                            "idToken": ""
-                        }
-                        os.makedirs(os.path.join(side_path, 'DentalAI'))
-                        with open(f"{side_path}\\DentalAI\\account.json", "a") as jsonfile:
-                            json.dump(dictionary, jsonfile)
+                    # if not verify_acc:
+                    #     dictionary = {
+                    #         "email": "",
+                    #         "password": "",
+                    #         "localID": "",
+                    #         "idToken": ""
+                    #     }
+                    #     os.makedirs(os.path.join(side_path, 'DentalAI'))
+                        
+                    #     with open(os.path.join(side_path, 'DentalAI', 'account.json'), "a") as jsonfile:
+                    #         json.dump(dictionary, jsonfile)
 
 
 
-                    with open(f"{side_path}\\DentalAI\\account.json", "r") as jsonfile:
-                        file = json.load(jsonfile)
+                    # with open(os.path.join(side_path, 'DentalAI', 'account.json'), "r") as jsonfile:
+                    #     file = json.load(jsonfile)
 
-                    file['email'] = email
-                    file['password'] = password
-                    file['idToken'] = user['idToken']
-                    file['localID'] = user['localId']
+                    # file['email'] = email
+                    # file['password'] = password
+                    # file['idToken'] = user['idToken']
+                    # file['localID'] = user['localId']
 
-                    with open(f"{side_path}\\DentalAI\\account.json", "w") as jsonfile:
-                        json.dump(file, jsonfile)
+                    # with open(os.path.join(side_path, 'DentalAI', 'account.json'), "w") as jsonfile:
+                    #     json.dump(file, jsonfile)
                     
                     return render_template('index.html')
                     
@@ -179,31 +182,31 @@ def signup():
                 try:
                     user = auth.create_user_with_email_and_password(email, password)
 
-                    verify_acc = os.path.exists(os.path.join(side_path, 'DentalAI', 'account.json'))
+                    # verify_acc = os.path.exists(os.path.join(side_path, 'DentalAI', 'account.json'))
                     
 
-                    if not verify_acc:
-                        dictionary = {
-                            "email": "",
-                            "password": "",
-                            "localID": "",
-                            "idToken": ""
-                        }
-                        os.makedirs(os.path.join(side_path, 'DentalAI'))
-                        with open(f"{side_path}\\DentalAI\\account.json", "a") as jsonfile:
-                            json.dump(dictionary, jsonfile)
+                    # if not verify_acc:
+                    #     dictionary = {
+                    #         "email": "",
+                    #         "password": "",
+                    #         "localID": "",
+                    #         "idToken": ""
+                    #     }
+                    #     os.makedirs(os.path.join(side_path, 'DentalAI'))
+                    #     with open(os.path.join(side_path, 'DentalAI', 'account.json'), "a") as jsonfile:
+                    #         json.dump(dictionary, jsonfile)
 
 
-                    with open(f"{side_path}\\DentalAI\\account.json", "r") as jsonfile:
-                        file = json.load(jsonfile)
+                    # with open(os.path.join(side_path, 'DentalAI', 'account.json'), "r") as jsonfile:
+                    #     file = json.load(jsonfile)
 
-                    file['email'] = email
-                    file['password'] = password
-                    file['idToken'] = user['idToken']
-                    file['localID'] = user['localId']
+                    # file['email'] = email
+                    # file['password'] = password
+                    # file['idToken'] = user['idToken']
+                    # file['localID'] = user['localId']
 
-                    with open(f"{side_path}\\DentalAI\\account.json", "w") as jsonfile:
-                        json.dump(file, jsonfile)
+                    # with open(os.path.join(side_path, 'DentalAI', 'account.json'), "w") as jsonfile:
+                    #     json.dump(file, jsonfile)
 
                     return render_template('index.html')
 
@@ -262,14 +265,14 @@ def save():
     if request.form.get('text') != "":
         if len(os.listdir(upload_folder)) > 0:
             file = os.listdir(upload_folder)[0]
-            save_path = os.path.expanduser('~\\Downloads')
+            save_path = os.path.expanduser('~\Downloads')
             
             img = Image.open(os.path.join(upload_folder, file))
 
 
             draw = ImageDraw.Draw(img)
-
-            font = ImageFont.truetype(path+'\\'+'static'+'\\'+'Fonts\\ethnocentric rg.otf')
+            
+            font = ImageFont.truetype(os.path.join(path,'static','Fonts','ethnocentric rg.otf'))
 
             text = request.form.get('text')
 
@@ -279,7 +282,9 @@ def save():
 
             new_date = f"{str(date.year)}-{str(date.month)}-{str(date.day)}"
 
-            img.save(save_path + '\\' + request.form.get('text') + ' ' + new_date + ' ' +file)
+            
+
+            img.save(os.path.join(save_path, f"{request.form.get('text')} {new_date} {file}"))
         
 
     return render_template('index.html')
@@ -312,4 +317,4 @@ def display(filename):
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
 if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0', port=int(os.getenv('PORT', 3000)))
+    app.run(debug=True, host="0.0.0.0")

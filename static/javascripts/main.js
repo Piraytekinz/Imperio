@@ -30,6 +30,8 @@ btn.onclick = () => {
 
 
 function showFile(e) {
+
+    console.log('submitting image')
     
     document.getElementById('submit-img').click()
     // var binaryData = []

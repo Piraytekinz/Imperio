@@ -1,6 +1,7 @@
 body {
     margin: 0px;
     font-family: 'Courier New', Courier, monospace;
-    background: linear-gradient(rgb(1, 0, 15), rgb(0, 0, 17));
+    background: linear-gradient(rgb(0, 17, 71), rgb(0, 0, 17));
     overflow-x: hidden;
+    min-height: 100vh;
 }
