@@ -1,32 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AI accepts dental images and detects the disease existent within the image while calculating health percentage.">
-
-    <title>Dental AI</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>Dental AI</title>
+    
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymus"></script>
-    <!-- <script type="text/javascript">
-        $(document).on('submit','#account-form',function(e)
-                       {
-            console.log('hello');
-            e.preventDefault();
-            $.ajax({
-            type:'POST',
-            url:'/signup',
-            data:{
-              email:$("#email").val(),
-              password:$("#password").val()
-            },
-            success:function()
-            {
-              alert('saved');
-            }
-          })
-        });
-    </script> -->
 
     <style>
         body {
@@ -40,7 +21,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 10%;
+            margin-top: 7%;
         }
 
         .submain {
@@ -56,59 +37,52 @@
             justify-content: center;
             align-items: center;
             display: flex;
-            height: 300px;
+            height: 200px;
         }
         
         form {
             display: block;
-            max-width: 400px;
-            width: 90%;
             
+            width: 70%;
+            max-width: 400px;
             
             border-radius: 5px;
-            padding: 40px;
+            padding: 30px;
         }
 
-        .emailcard {
+        .codecard {
             list-style: none;
             
             height: 50px;
             background: none;
             border: 1px solid rgb(14, 89, 250);
-            margin-bottom: 20px;
             justify-content: center;
             display: flex;
             align-items: center;
             border-radius: 15px 0px 15px 0px;
+            width: 40%;
+            margin-left: 30%;
+            margin-right: 30%;
+            margin-bottom: 30px;
         }
 
-        .emailcard input {
+        .codecard input {
             background: none;
         }
 
-        .passwordcard {
-            list-style: none;
-            
-            height: 50px;
-            background: none;
-            border: 1px solid rgb(14, 89, 250);
-            margin-bottom: 20px;
-            justify-content: center;
-            display: flex;
-            align-items: center;
-            border-radius: 15px 0px 15px 0px;
-        }
-
+        
 
         h2 {
             color: rgb(14, 89, 250);
             text-align: center;
+            font-weight: bold;
             font-family: monospace;
             font-size: 25px;
         }
 
-        a {
-            text-decoration: none;
+        button {
+            text-align: center;
+            background: none;
             color: rgb(14, 89, 250);
             border: 1px solid rgb(14, 89, 250);
             border-radius: 5px;
@@ -120,42 +94,34 @@
             height: 60px;
             width: 80px;
             transition: 0.4s;
-            padding: 10px;
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
-        a:hover {
-            color: rgb(14, 89, 250);
+        button:hover {
+            color: black;
             border: 1px solid rgb(14, 89, 250);
             border-radius: 5px;
+            background: rgb(14, 89, 250)
         }
 
-        input[type=email] {
-            width: 90%;
+        input[type=number] {
+            width: 70%;
             
             background: none;
             color: rgb(14, 89, 250);
             outline: none;
             border: none;
-            fill: none;
-            font-size: 20px;
+            font-size: 30px;
             height: 30px;
             font-weight: bold;
             font-family: monospace;
+            
         }
         
-        input[type=password] {
-            width: 90%;
-            /* background-color: red; */
-            background: none;
-            color: rgb(14, 89, 250);
-            outline: none;
-            border: none;
-            fill: none;
-            font-size: 20px;
-            height: 30px;
-            font-weight: bold;
-            font-family: monospace;
+        
+
+        ::ms-reveal {
+            filter: invert(100%);
         }
 
         
@@ -179,66 +145,106 @@
             /* padding: 100px; */
         }
 
+        .sub input[type=submit]:hover {
+            background-color: rgb(14, 89, 250);
+            color: black;
+        }
+
         .sub input[type=submit].open {
             background-color: rgb(14, 89, 250);
             color: black;
         }
 
-        .sub input[type=submit]:hover {
-            background-color: rgb(14, 89, 250);
-            color: black;
+        .check {
+            text-align: center;
+            font-size: 15px;
+            color: rgb(14, 89, 250);
+            font-family: monospace;
         }
 
         p {
             font-size: 13px;
             color: red;
             text-align: center;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-family: monospace;
             font-weight: 600;
         }
+
+        
+        
 
     </style>
 </head>
 <body>
-    <a href="signin-page">Login</a>
+    <!-- <a href="signup-page">Resend</a> -->
+    <button id="resend">Resend</button>
     
     <div class="main">
         <div class="submain">
-            <h2>Sign up</h2>
+            <h2>Enter code we sent to <br>{{ email }}</h2>
+            <p class="check">Check in spam if not in your inbox</p>
             <div class="form">
-                <form action="{{ url_for('signup') }}" method="post" enctype="multipart/form-data" id="account-form" autocomplete="off">
-                    <div class="emailcard">
-                        <input type="email" name="email" id="email" autocomplete="off" placeholder="email"><br>
-                        <label for="email"></label><br>
+                <form action="{{ url_for('verify') }}" method="post" enctype="multipart/form-data" id="account-form" autocomplete="off">
+                    <div class="codecard">
+                        <!-- <input type="email" name="email" id="email" value="" autocomplete="off" placeholder="email"><br> -->
+                        <input type="number" name="code" id="code" value="" autocomplete="off"><br>
+                        <label for="code"></label><br>
                     </div>
                     
-                    <div class="passwordcard">
-                        <input type="password" name="password" id="password" autocomplete="new-password" placeholder="password"><br>
-                        <label for="password"></label><br>
-                    </div>
+                    <input type="text" name="tries" id="tries"  value="{{tries}}" autocomplete="off" style="display: none;">
+
                     
                     <div class="sub">
                         <input type="submit" value="submit" id="submit" class="submit">
                     </div>
+                    
                 </form>
             </div>
         </div>
-
-        
         
     </div>
-    
+   
     {% if error %}
         <p>{{error}}</p>
     {% endif %}
 
     <script type="text/javascript">
         let btn = document.querySelector('.submit')
+        let res = document.getElementById('resend')
 
         console.log(btn)
         btn.onclick = () => {
             btn.classList.toggle('open')
-        }   
+        }
+        
+        let tries = 0
+
+        
+
+
+        $(document).on('click','#resend',function(e)
+                            {
+            console.log(tries++)
+            e.preventDefault();
+            $.ajax({
+            type:'POST',
+            url:'/resend',
+            
+            success:function()
+            {
+                alert("Code sent")
+                document.getElementById('tries').value = 0
+            },
+            error:function()
+            {
+                alert("Code not sent")
+            }
+
+            })
+        });
+        
+        
     </script>
+   
 </body>
 </html>

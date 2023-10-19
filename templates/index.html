@@ -7,7 +7,7 @@
     <meta name="description" content="AI accepts dental images and detects the disease existent within the image while calculating health percentage.">
     <title>Dental AI</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/4.12.0/tf.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymus"></script>
     
@@ -43,6 +43,7 @@
             padding: 20px;
             -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
+            width: 100%;
             /* overflow-y: scroll; */
             
         }
@@ -167,9 +168,9 @@
             align-items: center;
             display: flex;
             border: 1px solid grey;
-            width: 310px;
-            height: 310px;
-            border-radius: 155px;
+            width: 300px;
+            height: 300px;
+            border-radius: 150px;
             margin-top: 30px;
             
         }
@@ -351,9 +352,7 @@
             display: none;
             overflow: hidden;
         }
-        #submit-img {
-            display: none;
-        }
+        
         .ai {
             width: 40px;
             height: 40px;
@@ -396,6 +395,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 20px;
             /* cursor: pointer; */
         }
 
@@ -465,8 +465,10 @@
         #save-text {
             display: none;
         }
-        #submit-img {
-            display: none;
+        
+
+        #img-text {
+            display: block;
         }
 
     </style>
@@ -505,14 +507,15 @@
         </div>
         <div class="main">
             <div class="sub-main">
-                <img src="static/images/tooth (2).png" alt="tooth" class="tooth-icon">
+                <img src="static/images/tooth(2).png" alt="tooth" class="tooth-icon">
                 <div class="img-con">
                     
-                    {% if filename %}
-                    <img src="{{ url_for('display', filename=filename) }}" alt="#" id="image" class="main-img" width="240px" height="240px" style="border-radius: 120px;">
-                    {% endif %}
+                    
+                    <img src="" alt="#" id="main-img" class="main-img" width="230px" height="230px" style="border-radius: 115px;">
+                    
+                    
                 </div>
-                <img src="static/images/artificial-intelligence.png" alt="ai" class="ai">
+                <img src="static/images/artificial-intelligence.png" alt="ai" class="ai" id="ai">
             </div>
             <p class="detection" id="detection">Detection</p>
     
@@ -529,13 +532,20 @@
             </div>
     
             <div class="form">
+
+                
+
+
+
+
+
                 <form action="/" method="post" enctype="multipart/form-data">
                     
                     <input type="file" name="file" id="file" class="form-control" title="nothing" placeholder="nothing" autocomplete="off" accept="image/jpeg, image/jpg, image/png, image/webp, image/bmp" required>
                     
                     <button type="button" for="file" onclick="clickImage()" class="open-image" id="open-image"><img src="static/images/photo.png" alt="#" class="button-image"></button>
                     
-                    <input type="submit" value="S" id="submit-img">
+                    
                     
                     
                     
@@ -571,7 +581,7 @@
             <p class="contact-label">Email: </p>
             <a href="mailto:hometernetmanager@gmail.com" class="our_email">hometernetmanager@gmail.com</a>
 
-            <p class="notice">Note: Our AI is not 100% accurate. Contact us if you're willing to share some data. To get accurate results, display a close detailed image of your teeth without excessive face interference.</p>
+            <p class="notice">Note: Our AI is not 100% accurate. Contact us if you're willing to share some data. <br>To get accurate results, display a close detailed image of your teeth without excessive face interference.</p>
                 
             
         </div>
@@ -590,6 +600,7 @@
     <script type="text/javascript">
         try {
             detection = document.getElementById('detection')
+            
             $(document).on('click','#save-btn',function(e)
                             {
                 
@@ -604,17 +615,120 @@
                 success:function()
                 {
                     if (detection.innerHTML == "Detection" || detection.innerHTML == "Teeth undetected") {
-                        alert('Error saving')
+                        alert('Currently not in use')
                     } else {
-                        alert('saved');
+                        alert('Currently not in use');
                     }
                     
-                }
+                },
+                error:function()
+                {
+                    alert("Currently not in use.")
                 })
             });
         } catch {
             alert('An unknown error occured check your connection and try again.')
         }
+
+
+
+        
+        // $(document).ready(function () {
+        //     $("#file").on("change", showFile)
+            
+        // })
+        // try {
+        //     $(document).ready(function () {
+        //         $("#file").on("change", showFile)
+                
+        //     })
+        // } catch {
+        //     alert('An unknown error occured check your connection and try again.')
+        // }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#main-img').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+                console.log(input.files[0])
+            }
+        }
+
+        $("#file").change(function(){
+            readURL(this);
+        });
+
+
+        // function showFile(e) {
+
+        //     console.log('submitting image')
+
+
+            // var binaryData = []
+            // binaryData.push(e.target.value)
+
+            
+
+
+
+
+
+            // var par = new Blob(binaryData, {type: "image/jpg"})
+
+            // var url = URL.createObjectURL(new Blob(binaryData, {type: "image/jpg"}))
+
+            // var file = new FileReader()
+
+            // console.log(url)
+
+            // console.log(par)
+
+            // // console.log(image)
+            
+            // let newfile = file.readAsDataURL(par)
+
+            // document.getElementById('text').value = url
+
+
+            // document.getElementById('main-img').src = url
+
+
+            
+            // 
+
+            // console.log(document.getElementById('main-img').src)
+
+        // }
+
+
+        // console.log(document.getElementById('main-img').src)
+
+
+
+
+        //
+        //             {
+        
+        //     e.preventDefault();
+        //     $.ajax({
+        //     type:'POST',
+        //     url:'/test',
+        //     data:{
+        //         text:$("#img-text").val(),
+                
+        //     },
+        //     success:function()
+        //     {
+        //         alert('worked')
+                
+        //     }
+        //     })
+        // });
         
     </script>
 </body>

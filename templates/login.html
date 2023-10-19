@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <title>Dental AI</title>
     
-
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymus"></script>
 
     <style>
         body {
@@ -22,6 +22,7 @@
             justify-content: center;
             align-items: center;
             margin-top: 10%;
+            background: linear-gradient(rgb(1, 0, 15), rgb(0, 0, 17));
         }
 
         .submain {
@@ -43,7 +44,7 @@
         form {
             display: block;
             
-            width: 70%;
+            width: 90%;
             max-width: 400px;
             
             border-radius: 5px;
@@ -78,6 +79,21 @@
             display: flex;
             align-items: center;
             border-radius: 15px 0px 15px 0px;
+        }
+
+        .forgot {
+            color: rgb(14, 89, 250);
+            background: none;
+            outline: none;
+            border: none;
+            margin-bottom: 20px;
+            margin-top: 10px;
+            font-family: monospace;
+            cursor: pointer;
+        }
+
+        .forgot:hover {
+            text-decoration: underline;
         }
 
 
@@ -184,10 +200,107 @@
             font-weight: 600;
         }
 
+        .reset-con {
+            position: absolute;
+            top: 45%;
+
+            z-index: -1;
+            /* background: white; */
+           
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            left: 0%;
+            transition: 1s;
+        }
+
+        .reset-con.open {
+            z-index: 1;
+        }
+
+        .reset-p {
+            
+            /* height: 10px; */
+            width: 300px;
+            background: rgba(0,0,0.08,1);
+            
+            border: 1px solid rgb(14, 89, 250);
+            
+
+        }
+
+        .passwordresetcard {
+            list-style: none;
+            
+            height: 50px;
+            background: none;
+            border: 1px solid rgb(14, 89, 250);
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            border-radius: 15px 0px 15px 0px;
+        }
+
+        .reset-password {
+            width: 90%;
+            /* background-color: red; */
+            background: none;
+            color: rgb(14, 89, 250);
+            outline: none;
+            border: none;
+            fill: none;
+            font-size: 20px;
+            height: 30px;
+            font-weight: bold;
+            background-color: transparent;
+            font-family: monospace;
+        }
+
+        .close {
+            width: 30%;
+            height: 40px;
+            margin-left: 10px;
+            border: 1px solid rgb(14, 89, 250);
+            border-radius: 10px 0px 10px 0px;
+            color: rgb(14, 89, 250);
+            font-family: monospace;
+            margin-top: 20px;
+            background: none;
+            margin-bottom: 20px;
+        }
+
+        .submit-new {
+            width: 30%;
+            height: 40px;
+            
+            border: 1px solid rgb(14, 89, 250);
+            border-radius: 10px 0px 10px 0px;
+            color: black;
+            font-family: monospace;
+            margin-top: 20px;
+            background: rgb(14, 89, 250);
+            margin-bottom: 20px;
+
+        }
+
+        .btns {
+            display: flex;
+            align-items: center;
+            justify-content: right;
+        }
+
+        .notice{
+            text-align: left;
+            color: rgb(14, 85, 250);
+        }
     </style>
 </head>
 <body>
     <a href="signup-page">Sign up</a>
+
+    <button class="forgot" onclick="resetPassword()">Forgot password</button>
     
     <div class="main">
         <div class="submain">
@@ -201,17 +314,36 @@
                     
                     <div class="passwordcard">
                         <input type="password" name="password" id="password" value="" autocomplete="new-password" placeholder="password"><br>
-                        <label for="password"></label><br>
+                        <label for="password"></label>
                     </div>
+                    
                     <div class="sub">
                         <input type="submit" value="submit" id="submit" class="submit">
                     </div>
                     
                 </form>
             </div>
+            
         </div>
         
     </div>
+
+    <div class="reset-con" id="reset-con">
+        <form action="/passwordreset" method="post" enctype="multipart/form-data" class="reset-p">
+            <p class="notice">Enter your email</p>
+            <div class="passwordresetcard">
+                <input type="email" name="new-email" id="new-email" class="reset-password" value="" autocomplete="new-email" placeholder="email">
+            </div>
+            <div class="btns">
+                <input type="submit" value="submit" id="submit-new" class="submit-new">
+                <input type="button" value="close" id="close" class="close" onclick="resetPassword()">
+            </div>
+            
+            
+        </form>
+    </div>
+
+    
    
     {% if error %}
         <p>{{error}}</p>
@@ -219,11 +351,44 @@
 
     <script type="text/javascript">
         let btn = document.querySelector('.submit')
+        let re = document.getElementById('reset-con')
+        let newemail = document.getElementById("new-email")
 
         console.log(btn)
         btn.onclick = () => {
             btn.classList.toggle('open')
         }   
+
+
+
+
+        function resetPassword () {
+            newemail.value = ''
+            re.classList.toggle("open")
+        }
+
+        $(document).on('click','#submit-new',function(e)
+                            {
+                
+            e.preventDefault();
+            $.ajax({
+            type:'POST',
+            url:'/passwordreset',
+            data:{
+                email:$('#new-email').val(),
+            },
+            success:function()
+            {
+                alert("Password reset link has been sent to your email.")
+                resetPassword()
+                
+            },
+            error:function()
+            {
+                alert("Password reset email not sent.")
+            }
+            })
+        });
     </script>
    
 </body>

@@ -1,13 +1,6 @@
 
 
-try {
-    $(document).ready(function () {
-        $("#file").on("change", showFile)
-        
-    })
-} catch {
-    alert('An unknown error occured check your connection and try again.')
-}
+
 
 
 
@@ -18,6 +11,9 @@ let btn = document.querySelector('.close-btn')
 var detection = document.getElementById('detection')
 var analyze = document.getElementById('analyze')
 var details = document.getElementById('details')
+let image = document.getElementById('main-img')
+
+
 
 
 menu.onclick = () => {
@@ -29,35 +25,39 @@ btn.onclick = () => {
 }
 
 
-function showFile(e) {
 
-    console.log('submitting image')
-    
-    document.getElementById('submit-img').click()
-    // var binaryData = []
-    // binaryData.push(e.target.value)
-    
-    // var image= document.getElementById('img')
-    
-    
-
-    // 
-
-    // var par = new Blob(binaryData, {type: "image/jpg"})
-
-    // var url = URL.createObjectURL(new Blob(binaryData, {type: "image/jpg"}))
-
-    // var file = new FileReader()
-
-    // 
-
-}
 
     
 async function verifyTeeth() {
 
     try {
-        let image = document.getElementById('image')
+
+
+    
+    
+
+        let ids = ['Ca', 'De', 'Di', 'Gi', 'he', 'Hy', 'Ul']
+
+
+        // var largest = arr[0]
+
+
+        // for (var i = 0; i < arr.ids; i++) {
+        //     if (arr[i] > largest) {
+        //         largest = arr[i]
+        //         idx = i
+        //     }
+        // }
+        
+
+        ids.forEach(showPredictions)
+
+        
+        function showPredictions(value, index) {
+            document.getElementById(value).innerHTML=value + ': ' + '0' + '%'
+            
+            
+        }
 
         
         if (analyze.value != 'Analyzing') {
@@ -67,39 +67,46 @@ async function verifyTeeth() {
             
 
                 analyze.classList.toggle("open")
-    
+
                 analyze.value = 'Analyzing'
                 
                 detection.classList.toggle("fade")
-    
+
                 detection.style.color = 'white' 
-    
-                const model = await tf.loadLayersModel('static/verify teeth model/model.json')
-    
-                
-    
-                a = await tf.browser.fromPixels(image, 3).resizeBilinear([256, 256])
-    
+
+                const model = await tf.loadLayersModel('static/verifyteethmodel/model.json')
+
+                console.log('loaded model')
+
+                a = tf.browser.fromPixels(image, 3).resizeBilinear([256, 256])
+
+                console.log('preprocessed image')
+
                 // const input = await tf.sub(tf.div(tf.expandDims(a), 127.5), 1)
-                const input = await tf.expandDims(a)
-    
-                let pre = await model.predict(input)
+                const input = tf.expandDims(a)
+
+                console.log('expand dims')
+
+                let pre = model.predict(input)
+
+                console.log('predicted')
                 
-                var n = await pre.dataSync()
-    
+                var n = pre.dataSync()
+
                 var arr = Array.from(n)
-    
+
                 
-    
+                
+
                 if (arr[0]*100 == 100) {
                     loadModel()
                 } else {
                     detection.innerHTML = 'Teeth undetected'
                     detection.style.color = 'red' 
-    
+
                     detection.classList.toggle('fade')
                     analyze.classList.toggle("open")
-    
+
                     analyze.value = 'Analyze'
                     
                 }
@@ -124,8 +131,6 @@ async function loadModel() {
 
     try {
 
-        let image = document.getElementById('image')
-
         
 
         
@@ -134,31 +139,35 @@ async function loadModel() {
 
         
 
-        const model = await tf.loadLayersModel('static/web model/model.json')
+        
+
+        const model = await tf.loadLayersModel('static/webmodel/model.json')
 
         
 
-        
+        console.log('load web model')
 
         
-        a = await tf.browser.fromPixels(image, 3).resizeBilinear([256, 256])
+        a = tf.browser.fromPixels(image, 3).resizeBilinear([256, 256])
 
 
-
+        console.log('preprocessed web model')
         
         
 
 
-        const input = await tf.sub(tf.div(tf.expandDims(a), 127.5), 1)
+        const input = tf.sub(tf.div(tf.expandDims(a), 127.5), 1)
         // const input = tf.expandDims(a)
 
         
-
+        console.log('expand web dims')
         
 
-        let pre = await model.predict(input)
+        let pre = model.predict(input)
+
+        console.log('web predited')
         
-        var n = await pre.dataSync()
+        var n = pre.dataSync()
 
         var arr = Array.from(n)
 
@@ -242,7 +251,7 @@ function clickImage() {
 
 function reset() {
     refreshButton()
-    var img = document.getElementById('image')
+    var img = document.getElementById('main-img')
     img.src = ''
     
 }
