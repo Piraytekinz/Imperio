@@ -44,29 +44,7 @@ def build():
 
 
 
-# @app.route('/', methods=['POST'])
-# def upload_image():
-#     file=request.files['file']
-    
-#     if file:
-        
-#         # if len(os.listdir(upload_folder)) > 0:
-            
-#         #     os.remove(os.path.join(path, 'static', 'uploads', os.listdir(upload_folder)[0]))
-        
-#         print(file)
-#         filename = secure_filename(file.filename)
-#         print(filename)
-#         file.save(app.config['UPLOAD_FOLDER'] + '\\' + filename)
-#         # filename=os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
-#     return render_template('index.html', filename=app.config['UPLOAD_FOLDER'] + '\\' + filename)
-        
-    # except Exception as e:
-    #     print(e)
-    #     return 'Error reading file ' + e
-
-    # return render_template('index.html')
 
     
 

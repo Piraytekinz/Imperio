@@ -115,7 +115,13 @@
             height: 30px;
             font-weight: bold;
             font-family: monospace;
-            
+            -moz-appearance: textfield;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
         
         
@@ -187,7 +193,7 @@
                 <form action="{{ url_for('verify') }}" method="post" enctype="multipart/form-data" id="account-form" autocomplete="off">
                     <div class="codecard">
                         <!-- <input type="email" name="email" id="email" value="" autocomplete="off" placeholder="email"><br> -->
-                        <input type="number" name="code" id="code" value="" autocomplete="off"><br>
+                        <input type="number" name="code" id="code" value="" autocomplete="off" maxlength="6"><br>
                         <label for="code"></label><br>
                     </div>
                     
@@ -212,7 +218,7 @@
         let btn = document.querySelector('.submit')
         let res = document.getElementById('resend')
 
-        console.log(btn)
+        
         btn.onclick = () => {
             btn.classList.toggle('open')
         }
@@ -224,7 +230,7 @@
 
         $(document).on('click','#resend',function(e)
                             {
-            console.log(tries++)
+            
             e.preventDefault();
             $.ajax({
             type:'POST',

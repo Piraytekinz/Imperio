@@ -76,20 +76,19 @@ async function verifyTeeth() {
 
                 const model = await tf.loadLayersModel('static/verifyteethmodel/model.json')
 
-                console.log('loaded model')
+        
 
                 a = tf.browser.fromPixels(image, 3).resizeBilinear([256, 256])
 
-                console.log('preprocessed image')
+                
 
                 // const input = await tf.sub(tf.div(tf.expandDims(a), 127.5), 1)
                 const input = tf.expandDims(a)
 
-                console.log('expand dims')
+    
 
                 let pre = model.predict(input)
 
-                console.log('predicted')
                 
                 var n = pre.dataSync()
 
@@ -145,13 +144,13 @@ async function loadModel() {
 
         
 
-        console.log('load web model')
+        
 
         
         a = tf.browser.fromPixels(image, 3).resizeBilinear([256, 256])
 
 
-        console.log('preprocessed web model')
+      
         
         
 
@@ -160,12 +159,12 @@ async function loadModel() {
         // const input = tf.expandDims(a)
 
         
-        console.log('expand web dims')
+        
         
 
         let pre = model.predict(input)
 
-        console.log('web predited')
+
         
         var n = pre.dataSync()
 
