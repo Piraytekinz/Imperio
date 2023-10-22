@@ -172,8 +172,12 @@
             height: 300px;
             border-radius: 150px;
             margin-top: 30px;
-            
+            transition: 0.5s;
         }
+        .img-con.open {
+            border: 2px solid white;
+        }
+
         .sub-main {
             justify-content: space-between;
             align-items: center;
@@ -410,7 +414,7 @@
 
         .details {
             width: 70%;
-            height: 40%;
+            height: 50%;
             background: rgba(0,0,0.08,0.7);
             border: 1px solid rgb(14, 89, 250);
             border-radius: 10px;
@@ -442,7 +446,7 @@
         .details p {
             color: white;
             font-family: monospace;
-            font-size: 14px;
+            font-size: 15px;
             margin-left: 10%;
             margin-right: 10%;
             margin-top: 20px;
@@ -493,7 +497,7 @@
                 <p id="Hy" class="Hy">Hy: 0%</p>
             </div>
             <div>
-                <p id="he" class="he">He: 0%</p>
+                <p id="He" class="he">He: 0%</p>
             </div>
             
             <div>
@@ -508,10 +512,10 @@
         <div class="main">
             <div class="sub-main">
                 <img src="static/images/tooth(2).png" alt="tooth" class="tooth-icon">
-                <div class="img-con">
+                <div class="img-con" id="img-con">
                     
                     
-                    <img src="" alt="#" id="main-img" class="main-img" width="230px" height="230px" style="border-radius: 115px;">
+                    <img src="" alt="#" id="main-img" class="main-img" width="256px" height="256px" style="border-radius: 128px;">
                     
                     
                 </div>

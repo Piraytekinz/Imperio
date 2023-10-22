@@ -10,11 +10,24 @@ let menulist = document.querySelector('.nav-list')
 let btn = document.querySelector('.close-btn')
 var detection = document.getElementById('detection')
 var analyze = document.getElementById('analyze')
+var img_con = document.getElementById('img-con')
 var details = document.getElementById('details')
 let image = document.getElementById('main-img')
+var arr = null
+var idx = 0
 
 
 
+let calculus = "Calculus or tartar is a form of hardened dental plaque mostly seen as yellow. It is caused by precipitation of minerals from saliva and gingival crevicular fluid (GCF) in plaque on the teeth. This process of precipitation kills the bacterial cells within dental plaque, but the rough and hardened surface that is formed provides an ideal surface for further plaque formation. <br>Can only be removed by a dental professional since regular brushing and flossing won't be effective in getting rid of it."
+let decay = "Tooth decay, also known as cavities or caries, is the breakdown of teeth due to acids produced by bacteria. The cavities may be a number of different colors from yellow to black. Symptoms may include pain and difficulty with eating. <br>The cause of cavities is acid from bacteria dissolving the hard tissues of the teeth (enamel, dentin and cementum). The acid is produced by the bacteria when they break down food debris or sugar on the tooth surface."
+let discoloration = "Tooth discoloration is abnormal tooth color, hue or translucency. External discoloration is accumulation of stains on the tooth surface. Internal discoloration is due to absorption of pigment particles into tooth structure."
+let gingivitis = "Gingivitis is a common and mild form of gum disease (periodontal disease) that causes irritation, redness and swelling (inflammation) of your gingiva, the part of your gum around the base of your teeth. It's important to take gingivitis seriously and treat it promptly. The most common cause of gingivitis is the accumulation of bacterial plaque between and around the teeth. Dental plaque is a biofilm that accumulates naturally on the teeth. It occurs when bacteria attach to the smooth surface of a tooth. <br>Causes Include: <br>Smoking<br>Age<br>Vitamin Deficiencies<br>Drugs<br>Medications which reduce saliva."
+let healthy = "Keep up or improve your dental habits."
+let hypodontia = "The most common symptom of Hypodontia is the absence of one or more teeth. Other symptoms include malformed teeth and tooth decay. If you have Hypodontia, you may also have a higher risk of gum disease and infections."
+let ulcer = "Mouth ulcers are painful and typically small lesions that develop in your mouth or at the base of your gums. <br>See a doctor or dentist about your mouth ulcers."
+
+keys = [calculus, decay, discoloration, gingivitis, healthy, hypodontia, ulcer]
+keytitles = ['CALCULUS DETECTED', 'DECAY DETECTED', 'DISCOLORATION DETECTED', 'GINGIVITIS DETECTED', 'HEALTHY DETECTED', 'HYPODONTIA DETECTED', 'MOUTH ULCER DETECTED']
 
 menu.onclick = () => {
     menulist.classList.toggle('open')
@@ -36,7 +49,7 @@ async function verifyTeeth() {
     
     
 
-        let ids = ['Ca', 'De', 'Di', 'Gi', 'he', 'Hy', 'Ul']
+        let ids = ['Ca', 'De', 'Di', 'Gi', 'He', 'Hy', 'Ul']
 
 
         // var largest = arr[0]
@@ -72,6 +85,8 @@ async function verifyTeeth() {
                 
                 detection.classList.toggle("fade")
 
+                img_con.classList.toggle("open")
+
                 detection.style.color = 'white' 
 
                 const model = await tf.loadLayersModel('static/verifyteethmodel/model.json')
@@ -92,12 +107,12 @@ async function verifyTeeth() {
                 
                 var n = pre.dataSync()
 
-                var arr = Array.from(n)
+                var list = Array.from(n)
 
                 
                 
 
-                if (arr[0]*100 == 100) {
+                if (list[0]*100 == 100) {
                     loadModel()
                 } else {
                     detection.innerHTML = 'Teeth undetected'
@@ -105,6 +120,7 @@ async function verifyTeeth() {
 
                     detection.classList.toggle('fade')
                     analyze.classList.toggle("open")
+                    img_con.classList.toggle("open")
 
                     analyze.value = 'Analyze'
                     
@@ -115,10 +131,12 @@ async function verifyTeeth() {
 
         
     } catch {
-        detection.classList.toggle('fade')
-        analyze.classList.toggle("open")
-
-        analyze.value = 'Analyze'
+        if (analyze.value == 'Analyzing') {
+            detection.classList.toggle('fade')
+            analyze.classList.toggle("open")
+            img_con.classList.toggle("open")
+            analyze.value = 'Analyze'
+        }
         alert('An unknown error occured')
     }
 
@@ -140,14 +158,14 @@ async function loadModel() {
 
         
 
-        const model = await tf.loadLayersModel('static/webmodel/model.json')
+        const model = await tf.loadLayersModel('static/realwebmodel/model.json')
 
         
 
         
 
         
-        a = tf.browser.fromPixels(image, 3).resizeBilinear([256, 256])
+        a = tf.browser.fromPixels(image, 3)
 
 
       
@@ -155,7 +173,7 @@ async function loadModel() {
         
 
 
-        const input = tf.sub(tf.div(tf.expandDims(a), 127.5), 1)
+        const input = tf.div(tf.expandDims(a), 127.5)
         // const input = tf.expandDims(a)
 
         
@@ -168,13 +186,16 @@ async function loadModel() {
         
         var n = pre.dataSync()
 
-        var arr = Array.from(n)
+        arr = Array.from(n)
+        
+        
 
-        let ids = ['Ca', 'De', 'Di', 'Gi', 'he', 'Hy', 'Ul']
+        let ids = ['Ca', 'De', 'Di', 'Gi', 'He', 'Hy', 'Ul']
 
 
         var largest = arr[0]
-        var idx = 0
+
+        idx = 0
 
         for (var i = 0; i < arr.length; i++) {
             if (arr[i] > largest) {
@@ -222,7 +243,7 @@ async function loadModel() {
         
         detection.classList.toggle('fade')
         analyze.classList.toggle("open")
-
+        img_con.classList.toggle("open")
         analyze.value = 'Analyze'
 
         document.getElementById('save-text').value = detection.innerHTML
@@ -232,7 +253,7 @@ async function loadModel() {
 
         detection.classList.toggle('fade')
         analyze.classList.toggle("open")
-
+        img_con.classList.toggle("open")
         analyze.value = 'Analyze'
         alert('An unknown error occured')
         
@@ -252,6 +273,30 @@ function reset() {
     refreshButton()
     var img = document.getElementById('main-img')
     img.src = ''
+    detection.innerHTML = 'Detection'
+
+    let ids = ['Ca', 'De', 'Di', 'Gi', 'He', 'Hy', 'Ul']
+
+
+    // var largest = arr[0]
+
+
+    // for (var i = 0; i < arr.ids; i++) {
+    //     if (arr[i] > largest) {
+    //         largest = arr[i]
+    //         idx = i
+    //     }
+    // }
+    
+
+    ids.forEach(showPredictions)
+
+    
+    function showPredictions(value, index) {
+        document.getElementById(value).innerHTML=value + ': ' + '0' + '%'
+        
+        
+    }
     
 }
 
@@ -302,30 +347,41 @@ function showDetails () {
     var text = document.getElementById("description")
 
     
+    
+
+
+
+    
     if (detection.innerHTML == "Detection" || detection.innerHTML == "Teeth undetected") {
         title.innerHTML = 'No analyses made'
         text.innerHTML = "No detections"
     } else {
-        if (detection.innerHTML.search("Gingivitis") == 0) {
-            text.innerHTML = "Gingivitis is a common and mild form of gum disease (periodontal disease) that causes irritation, redness and swelling (inflammation) of your gingiva, the part of your gum around the base of your teeth. It's important to take gingivitis seriously and treat it promptly. \n \nThe most common cause of gingivitis is the accumulation of bacterial plaque between and around the teeth. Dental plaque is a biofilm that accumulates naturally on the teeth. It occurs when bacteria attach to the smooth surface of a tooth. \n \nSmoking\nAge\nVitamin Deficiencies\nDrugs\nMedications which reduce saliva."
+
+        let detections_made = arr
+        let passed = []
+        
+
+        detections_made.forEach(function greaterThan (value, index) {
+            
+            if (value*100 >= 1) {
+                
+                passed.push((index))
+            }
+        })
+
+        
+        
+        var display = keys[idx]
+
+        for (var i=0; i<passed.length;i++) {
+            if (passed[i] != idx) {
+                newtxt = '<br>' + '<br>' + keytitles[passed[i]] + '<br>' + keys[passed[i]] + '<br>'
+                display = display + '\n \n' + newtxt
+            }
+            
         }
-        else if (detection.innerHTML.search("Decay") == 0) {
-            text.innerHTML = "Tooth decay, also known as cavities or caries, is the breakdown of teeth due to acids produced by bacteria. The cavities may be a number of different colors from yellow to black. Symptoms may include pain and difficulty with eating. \n \nhe cause of cavities is acid from bacteria dissolving the hard tissues of the teeth (enamel, dentin and cementum). The acid is produced by the bacteria when they break down food debris or sugar on the tooth surface."
-        }
-        else if (detection.innerHTML.search("Discoloration") == 0) {
-            text.innerHTML = "Tooth discoloration is abnormal tooth color, hue or translucency. External discoloration is accumulation of stains on the tooth surface. Internal discoloration is due to absorption of pigment particles into tooth structure."
-        }
-        else if (detection.innerHTML.search("Calculus") == 0) {
-            text.innerHTML = "Calculus or tartar is a form of hardened dental plaque mostly seen as yellow. It is caused by precipitation of minerals from saliva and gingival crevicular fluid (GCF) in plaque on the teeth. This process of precipitation kills the bacterial cells within dental plaque, but the rough and hardened surface that is formed provides an ideal surface for further plaque formation. \n \nCan only be removed by a dental professional since regular brushing and flossing won't be effective in getting rid of it."
-        }
-        else if (detection.innerHTML.search("Hypodontia") == 0) {
-            text.innerHTML = "The most common symptom of Hypodontia is the absence of one or more teeth. Other symptoms include malformed teeth and tooth decay. If you have Hypodontia, you may also have a higher risk of gum disease and infections."
-        }
-        else if (detection.innerHTML.search("Mouth Ulcer") == 0) {
-            text.innerHTML = "Mouth ulcers are painful and typically small lesions that develop in your mouth or at the base of your gums. See a doctor or dentist about your mouth ulcers if you develop any."
-        } else {
-            text.innerHTML = "Keep up or improve your dental habits."
-        }
+
+        text.innerHTML = display
         title.innerHTML = detection.innerHTML
         
     }

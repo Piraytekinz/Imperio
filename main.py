@@ -1,12 +1,8 @@
-from flask import Flask, render_template, request, url_for, redirect
-from werkzeug.utils import secure_filename
+from flask import Flask, render_template, request
 import requests
-import os
-from PIL import Image, ImageDraw, ImageFont
 import pyrebase
 import json
 import re
-import datetime
 import random
 import smtplib
 
@@ -312,6 +308,7 @@ def signout():
 
 @app.route('/passwordreset', methods=["POST"])
 def passwordreset():
+    error = None
     try:
         mail = request.form.get('email')
 
@@ -324,7 +321,7 @@ def passwordreset():
             error = 'Email not found'
     except:
         error = "Failed to send password reset link"
-    return render_template('login.html')
+    return render_template('login.html', error=error)
 
 
 
