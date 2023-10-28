@@ -13,6 +13,11 @@
     
 
     <style>
+
+        @font-face {
+            font-family: futuristic;
+            src: url('/static/Fonts/ethnocentricrg.otf');
+        }
         
         body{
             overflow-x: hidden;
@@ -145,9 +150,7 @@
         }
 
         .predictions p {
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
             font-size: 15px;
-            font-weight: 900;
             color: white;
             font-weight: bold;
             margin-top: 20px;
@@ -191,10 +194,11 @@
             text-align: center;
             font-size: 40px;
             font-weight: 900;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-family: futuristic;
             opacity: 1;
             -webkit-transition: opacity 0.5s ease-in-out;
             transition: opacity 0.5s ease-in-out;
+            /* font-family:Verdana, Geneva, Tahoma, sans-serif; */
         }
         .detection.fade {
             opacity: 0;
@@ -475,6 +479,25 @@
             display: block;
         }
 
+        @media (max-width: 1200px) {
+            .tooth-icon {
+                width: 30px;
+                height: 30px;
+            }
+            .ai {
+                width: 30px;
+                height: 30px;
+            }
+
+            .predictions p {
+                font-size: 13px;
+            }
+            .detection {
+                font-size: 35px;
+            }
+            
+        }
+
     </style>
 </head>
 <body>
@@ -585,7 +608,7 @@
             <p class="contact-label">Email: </p>
             <a href="mailto:hometernetmanager@gmail.com" class="our_email">hometernetmanager@gmail.com</a>
 
-            <p class="notice">Note: Our AI is not 100% accurate. Contact us if you're willing to share some data. <br>To get accurate results, display a close detailed image of your teeth without excessive face interference.</p>
+            <p class="notice">Note: Our AI is not 100% accurate. Contact us if you're willing to share some dental image data. <br>To get accurate results, display a close detailed image of your teeth without excessive face interference.</p>
                 
             
         </div>
