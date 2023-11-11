@@ -13,9 +13,13 @@ var analyze = document.getElementById('analyze')
 var img_con = document.getElementById('img-con')
 var details = document.getElementById('details')
 let image = document.getElementById('main-img')
+let circle_one = document.getElementById('tooth')
+let circle_two = document.getElementById('ai')
+let error_ = document.getElementById('error')
+let error_text = document.getElementById('error-text')
 var arr = null
 var idx = 0
-
+var a
 
 
 let calculus = "Calculus or tartar is a form of hardened dental plaque mostly seen as yellow. It is caused by precipitation of minerals from saliva and gingival crevicular fluid (GCF) in plaque on the teeth. This process of precipitation kills the bacterial cells within dental plaque, but the rough and hardened surface that is formed provides an ideal surface for further plaque formation. <br>Can only be removed by a dental professional since regular brushing and flossing won't be effective in getting rid of it."
@@ -77,7 +81,8 @@ async function verifyTeeth() {
 
             if (image.src!= '') {
 
-            
+                circle_one.classList.toggle('circle')
+                circle_two.classList.toggle('circle')
 
                 analyze.classList.toggle("open")
 
@@ -93,21 +98,21 @@ async function verifyTeeth() {
 
         
 
-                a = tf.browser.fromPixels(image, 3).resizeBilinear([256, 256])
+                a = await tf.browser.fromPixels(image, 3).resizeBilinear([256, 256])
 
                 
 
                 // const input = await tf.sub(tf.div(tf.expandDims(a), 127.5), 1)
-                const input = tf.expandDims(a)
+                const input = await tf.expandDims(a)
 
     
 
-                let pre = model.predict(input)
+                let pre = await model.predict(input)
 
                 
-                var n = pre.dataSync()
+                var n = await pre.dataSync()
 
-                var list = Array.from(n)
+                var list = await Array.from(n)
 
                 
                 
@@ -122,6 +127,9 @@ async function verifyTeeth() {
                     analyze.classList.toggle("open")
                     img_con.classList.toggle("open")
 
+                    circle_one.classList.toggle('circle')
+                    circle_two.classList.toggle('circle')
+
                     analyze.value = 'Analyze'
                     
                 }
@@ -135,9 +143,11 @@ async function verifyTeeth() {
             detection.classList.toggle('fade')
             analyze.classList.toggle("open")
             img_con.classList.toggle("open")
+            circle_one.classList.toggle('circle')
+            circle_two.classList.toggle('circle')
             analyze.value = 'Analyze'
         }
-        alert('An unknown error occured')
+        error('An unknown error occured')
     }
 
     
@@ -165,7 +175,7 @@ async function loadModel() {
         
 
         
-        a = tf.browser.fromPixels(image, 3)
+        // a = tf.browser.fromPixels(image, 3)
 
 
       
@@ -173,20 +183,20 @@ async function loadModel() {
         
 
 
-        const input = tf.div(tf.expandDims(a), 127.5)
+        const input = await tf.div(tf.expandDims(a), 127.5)
         // const input = tf.expandDims(a)
 
         
         
         
 
-        let pre = model.predict(input)
+        let pre = await model.predict(input)
 
 
         
-        var n = pre.dataSync()
+        var n = await pre.dataSync()
 
-        arr = Array.from(n)
+        arr = await Array.from(n)
         
         
 
@@ -244,6 +254,8 @@ async function loadModel() {
         detection.classList.toggle('fade')
         analyze.classList.toggle("open")
         img_con.classList.toggle("open")
+        circle_one.classList.toggle('circle')
+        circle_two.classList.toggle('circle')
         analyze.value = 'Analyze'
 
         document.getElementById('save-text').value = detection.innerHTML
@@ -255,7 +267,9 @@ async function loadModel() {
         analyze.classList.toggle("open")
         img_con.classList.toggle("open")
         analyze.value = 'Analyze'
-        alert('An unknown error occured')
+        error('An unknown error occured')
+        circle_one.classList.toggle('circle')
+        circle_two.classList.toggle('circle')
         
     }
     
@@ -263,14 +277,13 @@ async function loadModel() {
 }
 
 function clickImage() {
-    openButton()
+
     document.getElementById('file').click()
 }
 
 
 
 function reset() {
-    refreshButton()
     var img = document.getElementById('main-img')
     img.src = ''
     detection.innerHTML = 'Detection'
@@ -301,29 +314,10 @@ function reset() {
 }
 
 
-async function saveButton() {
-    var btn = document.getElementById('save-btn')
-    btn.classList.toggle("open")
 
 
-    
-}
 
 
-async function openButton() {
-    var btn = document.getElementById('open-image')
-    btn.classList.toggle("open")
-
-
-    
-}
-
-
-async function refreshButton() {
-    var btn = document.getElementById('refresh')
-    btn.classList.toggle("open")
-    
-}
 
 
 function signOutAnim() {
@@ -396,4 +390,10 @@ function showDetails () {
 
 function closeDetails () {
     details.classList.toggle("open")
+}
+
+function error(text) {
+
+    error_text.innerHTML = text
+    error_.classList.toggle('open')
 }

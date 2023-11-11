@@ -176,10 +176,23 @@
             border-radius: 150px;
             margin-top: 30px;
             transition: 0.5s;
+
+            
         }
         .img-con.open {
-            border: 1px solid rgb(14, 89, 250);
+            border: 1px solid white;
+            /* animation: open 1s linear;
+            animation-iteration-count: infinite; */
         }
+
+        /* @keyframes open {
+            0% {
+                border: 1px solid white;
+            }
+            100% {
+                border: 1px solid rgb(14, 89, 250);
+            }
+        } */
 
         .sub-main {
             justify-content: space-between;
@@ -215,6 +228,7 @@
 
         .b1, .b2, .b3 {
             background: rgb(14, 89, 250);
+            
             height: 5px;
             width: 60px;
             margin-left: 10px;
@@ -268,7 +282,7 @@
             background: none;
             font-size: 17px;
             margin-left: 30px;
-            transition: 0.3s;
+            /* transition: 0.3s; */
         }
 
         .form button .button-image {
@@ -285,32 +299,20 @@
             margin-right: 1px;
         }
         
-        .form .open-image.open {
-            animation: animate 1s;
-            
+       
+        .form .open-image:hover {
+            background: rgb(14, 89, 250);
         }
         
     
 
 
-        .form .save-button.open {
-            
-            animation: animate 1s;
+        .save-button:hover {
+            background: rgb(14, 89, 250);
         }
 
-        @keyframes animate {
-            0% {
-                background: rgb(14, 89, 250);
-            }
-            100% {
-                background: none;
-            }
-        }
         
-        .form .refresh.open {
-            animation: animate 1s;
-
-        }
+        
         
         
         
@@ -324,6 +326,10 @@
             font-size: 17px;
             margin-left: 30px;
             
+        }
+
+        .form .refresh:hover {
+            background: rgb(14, 89, 250);
         }
 
         .form .refresh .refresh-icon {
@@ -364,13 +370,61 @@
         .ai {
             width: 40px;
             height: 40px;
-
+            border-radius: 50%;
             margin-right: 10px;
+            /* background: rgb(1, 0, 15); */
+            border: 2px solid grey;
+            
+            
+            border-left: 2px solid rgba(255, 255, 255, 0);
+            rotate: 200deg;
+            transition: 0.5s;
+            
         }
+
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+
         .tooth-icon {
             width: 40px;
             height: 40px;
+            border-radius: 30px;
             margin-left: 10px;
+            /* background: rgb(1, 0, 15); */
+            border: 2px solid grey;
+            border-left: 2px solid rgba(255, 255, 255, 0);
+            
+            rotate: 100deg;
+            transition: 0.5s;
+            
+            
+            
+        }
+
+        .tooth-icon.circle {
+            border-top: 2px solid rgb(14, 89, 250);
+            border-right: 2px solid rgb(14, 89, 250);
+            border-bottom: 2px solid rgb(14, 89, 250);
+            animation: rotate 1s linear;
+            animation-iteration-count: infinite;
+            
+        }
+        
+        .ai.circle {
+            border-top: 2px solid rgb(14, 89, 250);
+            border-right: 2px solid rgb(14, 89, 250);
+            border-bottom: 2px solid rgb(14, 89, 250);
+            animation: rotate 1s linear;
+            animation-iteration-count: infinite;
+            
         }
 
         .contact-txt {
@@ -403,7 +457,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
             /* cursor: pointer; */
         }
 
@@ -412,8 +466,14 @@
             color: rgb(14, 89, 250);
             font-family: monospace;
             padding: 10px;
-            border-bottom: 2px solid rgb(14, 89, 250);
+            /* border-bottom: 2px solid rgb(14, 89, 250); */
+            border: 1px solid rgb(14, 89, 250);
             cursor: pointer;
+        }
+
+        .read-more-text:hover {
+            background: rgb(14, 89, 250);
+            color: black;
         }
 
         .details {
@@ -437,6 +497,53 @@
             left: 15%;
             z-index: 0;
             
+        }
+
+        .error {
+            width: 70%;
+            max-width: 400px;
+            height: 50px;
+            /* height: fit-content; */
+            background: rgba(0,0,0.08,0.7);
+            border: 1px solid rgb(14, 89, 250);
+            border-radius: 10px;
+            position: fixed;
+            right: 15%;
+            left: 15%;
+            top: 100%;
+            /* bottom: 30%; */
+            transition: 1s ease-in-out;
+           
+            
+        }
+
+        .error.open {
+            /* top: 80%; */
+            animation: error 1.5s ease-in-out;
+            animation-iteration-count: 2;
+            animation-direction: alternate;
+            /* animation-delay: 5s; */
+        }
+
+        @keyframes error {
+            0% {
+                top: 100%;
+            }
+            
+            30%, 100% {
+                top: 80%;
+            }
+            
+            
+        }
+
+        
+        
+
+        .error-text {
+            color: red;
+            margin: 10px;
+            margin-top: 15px;
         }
 
         .details h2 {
@@ -483,10 +590,15 @@
             .tooth-icon {
                 width: 30px;
                 height: 30px;
+                border-radius: 50%;
+            }
+            .read-more-text {
+                font-size: 18px;
             }
             .ai {
                 width: 30px;
                 height: 30px;
+                border-radius: 50%;
             }
 
             .predictions p {
@@ -494,6 +606,19 @@
             }
             .detection {
                 font-size: 35px;
+            }
+
+
+            .img-con {
+                width: 280px;
+                height: 280px;
+                border-radius: 150px;
+            }
+
+            .main-img {
+                width: 210px;
+                height: 210px;
+                border-radius: 105px;
             }
             
         }
@@ -534,15 +659,21 @@
         </div>
         <div class="main">
             <div class="sub-main">
-                <img src="static/images/tooth(2).png" alt="tooth" class="tooth-icon">
+                <!-- <img src="static/images/tooth(2).png" alt="tooth" class="tooth-icon"> -->
+                <div class="tooth-icon" id="tooth">
+
+                </div>
                 <div class="img-con" id="img-con">
                     
                     
-                    <img src="" alt="#" id="main-img" class="main-img" width="256px" height="256px" style="border-radius: 128px;">
+                    <img src="" alt="#" id="main-img" class="main-img" width="230px" height="230px" style="border-radius: 128px;">
                     
                     
                 </div>
-                <img src="static/images/artificial-intelligence.png" alt="ai" class="ai" id="ai">
+                <!-- <img src="static/images/artificial-intelligence.png" alt="ai" class="ai" id="ai"> -->
+                <div class="ai" id="ai">
+
+                </div>
             </div>
             <p class="detection" id="detection">Detection</p>
     
@@ -579,7 +710,7 @@
                 </form>
                 <form action="/" method="post" enctype="multipart/form-data" id="save-form">
                     <input type="text" value="" id="save-text" title="Save" placeholder="Save">
-                    <button type="button" id="save-btn" class="save-button" onclick="saveButton()"><img src="static/images/diskette.png" alt="#" class="save-button-image" id="save-btn-image"></button>
+                    <button type="button" id="save-btn" class="save-button"><img src="static/images/diskette.png" alt="#" class="save-button-image" id="save-btn-image"></button>
                     
                 </form>
                 
@@ -606,7 +737,7 @@
 
             <p class="contact-txt">Contact Us</p>
             <p class="contact-label">Email: </p>
-            <a href="mailto:hometernetmanager@gmail.com" class="our_email">hometernetmanager@gmail.com</a>
+            <a href="mailto:hometernetmanager@gmail.com" class="our_email">hometernetmanager</a>
 
             <p class="notice">Note: Our AI is not 100% accurate. Contact us if you're willing to share some dental image data. <br>To get accurate results, display a close detailed image of your teeth without excessive face interference.</p>
                 
@@ -617,7 +748,12 @@
             <h2 class="details-title" id="details-title">No analyses made</h2>
             <p class="description" id="description">No analyses</p>
             <button class="close-details" id="close-details" onclick="closeDetails()">close</button>
-       </div>
+        </div>
+
+        <div class="error" id="error">
+            <p class="error-text" id="error-text">An unknown error occured</p>
+            
+        </div>
     
     
     </div>
@@ -625,6 +761,15 @@
     <script src="static/javascripts/main.js" type="text/javascript"></script>
 
     <script type="text/javascript">
+        // let error_ = document.getElementById('error')
+        // let error_text = document.getElementById('error-text')
+
+        // function error(text) {
+
+        //     error_text.innerHTML = text
+        //     error_.classList.toggle('open')
+        // }
+
         try {
             detection = document.getElementById('detection')
             
@@ -642,21 +787,22 @@
                 success:function()
                 {
                     if (detection.innerHTML == "Detection" || detection.innerHTML == "Teeth undetected") {
-                        alert('Currently not in use')
+                        error('Currently not in use')
                     } else {
-                        alert('Currently not in use');
+                        error('Currently not in use');
                     }
                     
                 },
                 error:function()
                 {
-                    alert("Currently not in use.")
+                    error("Currently not in use")
                 },
 
                 })
             });
         } catch {
-            alert('An unknown error occured check your connection and try again.')
+            error('Error connecting to the server')
+            // alert('An unknown error occured check your connection and try again.')
         }
 
 
@@ -688,9 +834,15 @@
             }
         }
 
-        $("#file").change(function(){
-            readURL(this);
-        });
+        try {
+            $("#file").change(function(){
+                readURL(this);
+            });
+        } catch {
+            
+        }
+
+        
 
 
         // function showFile(e) {
