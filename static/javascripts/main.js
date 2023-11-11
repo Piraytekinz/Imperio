@@ -287,6 +287,7 @@ function reset() {
     var img = document.getElementById('main-img')
     img.src = ''
     detection.innerHTML = 'Detection'
+    detection.style.color = 'white' 
 
     let ids = ['Ca', 'De', 'Di', 'Gi', 'He', 'Hy', 'Ul']
 
