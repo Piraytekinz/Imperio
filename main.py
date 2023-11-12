@@ -36,7 +36,7 @@ passwords = []
 @app.route('/')
 def build():
 
-    return render_template('intro.html')
+    return render_template('index.html')
 
 
 
