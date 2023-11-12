@@ -274,7 +274,7 @@ def send_code():
 
 
     
-    message = f"From: Hometernet \nTo: {emails[0]} \nSubject: Your Dental AI login code is...{code}. \n\nYour code is {code}. \n \nYou can ignore this email if you weren't authenticating an account."
+    message = f"From: Imperio \nTo: {emails[0]} \nSubject: Your login code for Imperio is...{code}. \n\nYour code is {code}. \n \nYou can ignore this email if you weren't authenticating an account."
 
     
     server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
