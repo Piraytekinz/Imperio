@@ -90,7 +90,7 @@ def signin():
                         # with open(os.path.join(side_path, 'DentalAI', 'account.json'), "w") as jsonfile:
                         #     json.dump(file, jsonfile)
                         
-                        return render_template('index.html')
+                        return render_template('home.html')
                         
                     except requests.exceptions.HTTPError as e:
                         error_json = e.args[1]
@@ -238,7 +238,7 @@ def verify():
                     #     json.dump(file, jsonfile)
                     
 
-                    return render_template('index.html')
+                    return render_template('home.html')
 
 
                 except requests.exceptions.HTTPError as e:
@@ -364,7 +364,7 @@ def save():
         #     img.save(os.path.join(save_path, f"{request.form.get('text')} {new_date} {file}"))
         
 
-    return render_template('index.html')
+    return render_template('home.html')
 
 @app.route('/signup-page')
 def switch_signup():
@@ -376,7 +376,7 @@ def switch_signin():
 
 @app.route('/home')
 def home_page():
-    return render_template('index.html')
+    return render_template('home.html')
 
 @app.route('/creator')
 def creator_page():
