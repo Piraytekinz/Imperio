@@ -89,8 +89,10 @@ def signin():
 
                         # with open(os.path.join(side_path, 'DentalAI', 'account.json'), "w") as jsonfile:
                         #     json.dump(file, jsonfile)
+                        # home_page()
                         
                         return render_template('home.html')
+                    
                         
                     except requests.exceptions.HTTPError as e:
                         error_json = e.args[1]
@@ -390,6 +392,6 @@ def about_page():
     
 
 if __name__ == "__main__":
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=8080)  
-    # app.run(debug=True)
+    # from waitress import serve
+    # serve(app, host="0.0.0.0", port=8080)  
+    app.run(debug=True)

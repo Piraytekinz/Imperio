@@ -98,7 +98,7 @@ async function verifyTeeth() {
 
         
 
-                a = await tf.browser.fromPixels(image, 3).resizeBilinear([256, 256])
+                a = await tf.browser.fromPixels(image, 3).resizeBilinear([128, 128])
 
                 
 
@@ -178,7 +178,7 @@ async function loadModel() {
         // a = tf.browser.fromPixels(image, 3)
 
 
-      
+        a = await tf.browser.fromPixels(image, 3).resizeBilinear([256, 256])
         
         
 
