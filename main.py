@@ -31,6 +31,7 @@ global code
 
 emails = []
 passwords = []
+has_signed = ["False"]
 
 
 @app.route('/')
@@ -90,7 +91,8 @@ def signin():
                         # with open(os.path.join(side_path, 'DentalAI', 'account.json'), "w") as jsonfile:
                         #     json.dump(file, jsonfile)
                         # home_page()
-                        
+                        has_signed.clear()
+                        has_signed.append("True")
                         return render_template('home.html')
                     
                         
@@ -238,7 +240,8 @@ def verify():
 
                     # with open(os.path.join(side_path, 'DentalAI', 'account.json'), "w") as jsonfile:
                     #     json.dump(file, jsonfile)
-                    
+                    has_signed.clear()
+                    has_signed.append("True")
 
                     return render_template('home.html')
 
@@ -314,7 +317,8 @@ def resend():
 
 @app.route('/signout')
 def signout():
-    
+    has_signed.clear()
+    has_signed.append("False")
     return render_template('login.html')
 
 
@@ -378,6 +382,8 @@ def switch_signin():
 
 @app.route('/home')
 def home_page():
+    if has_signed[0] == "False":
+        return render_template('login.html')
     return render_template('home.html')
 
 @app.route('/creator')
@@ -392,6 +398,6 @@ def about_page():
     
 
 if __name__ == "__main__":
-    # from waitress import serve
-    # serve(app, host="0.0.0.0", port=8080)  
-    app.run(debug=True)
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=8080)  
+    # app.run(debug=True)
