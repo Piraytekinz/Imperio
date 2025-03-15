@@ -382,8 +382,7 @@ def switch_signin():
 
 @app.route('/home')
 def home_page():
-    if has_signed[0] == "False":
-        return render_template('login.html')
+    
     return render_template('home.html')
 
 @app.route('/creator')
