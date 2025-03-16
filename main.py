@@ -5,20 +5,15 @@ import json
 import re
 import random
 import smtplib
+import json
 
 app = Flask(__name__)
 
 
-firebaseConfig = {
-  "apiKey": "AIzaSyAwNGiMC3hRPLlYinWz9aWKeAqJ3nAs1Yk",
-  "authDomain": "dental-ai-d1cf2.firebaseapp.com",
-  "databaseURL": "https://dental-ai-d1cf2-default-rtdb.firebaseio.com",
-  "projectId": "dental-ai-d1cf2",
-  "storageBucket": "dental-ai-d1cf2.appspot.com",
-  "messagingSenderId": "1033056690950",
-  "appId": "1:1033056690950:web:2a4317647b65504685f487",
-  "measurementId": "G-YEPCZZ2TVP"
-}
+with open('./static/javascripts/key.json') as f:
+    info = json.load(f)
+
+firebaseConfig = info
 
 firebase = pyrebase.initialize_app(firebaseConfig)
 
