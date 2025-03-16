@@ -7,6 +7,15 @@
     <title>Imperio</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" type="text/css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YEPCZZ2TVP"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-YEPCZZ2TVP');
+    </script>
     {% block head %} {% endblock %}
 </head>
 <body>
